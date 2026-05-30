@@ -6,6 +6,9 @@ sentence-transformers
 pdfplumber
 pandas
 python-docx
+python-pptx
 requests
 beautifulsoup4
 python-dotenv
+openai-whisper
+openpyxl
