@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def fetch_trade_data(hs_code: str, year: str = "2023-2024", trade_type: str = "export") -> list[dict]:
+def fetch_trade_data(hs_code: str, year: str = "2024-2025", trade_type: str = "export") -> list[dict]:
     session = requests.Session()
     session.headers.update({
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
@@ -10,11 +10,11 @@ def fetch_trade_data(hs_code: str, year: str = "2023-2024", trade_type: str = "e
     })
 
     if trade_type == "export":
-        base_url = "https://tradestat.commerce.gov.in/eidb/ecom.asp"
+        url = "https://tradestat.commerce.gov.in/eidb/commodity_wise_export"
     else:
-        base_url = "https://tradestat.commerce.gov.in/eidb/icom.asp"
+        url = "https://tradestat.commerce.gov.in/eidb/commodity_wise_import"
 
-    resp = session.get(base_url)
+    resp = session.get(url)
     resp.raise_for_status()
     soup = BeautifulSoup(resp.text, "html.parser")
 
@@ -23,21 +23,19 @@ def fetch_trade_data(hs_code: str, year: str = "2023-2024", trade_type: str = "e
     if token_input:
         token = token_input.get("value", "")
 
-    hs_2digit = hs_code[:2]
-
-    if trade_type == "export":
-        detail_url = "https://tradestat.commerce.gov.in/eidb/ecomcntq.asp"
-    else:
-        detail_url = "https://tradestat.commerce.gov.in/eidb/icomcntq.asp"
+    year_val = year.split("-")[0]
+    hs_digits = len(hs_code)
+    level = str(hs_digits) if hs_digits in (2, 4, 6, 8) else "2"
 
     form_data = {
-        "hscode": hs_2digit,
-        "year": year,
+        "_token": token,
+        "EidbYearCwe": year_val,
+        "EidbComLevelCwe": level,
+        "comType": "all",
+        "Eidb_ReportCwe": "2",
     }
-    if token:
-        form_data["_token"] = token
 
-    resp2 = session.post(detail_url, data=form_data)
+    resp2 = session.post(url, data=form_data)
     resp2.raise_for_status()
 
     return parse_trade_table(resp2.text)
@@ -58,7 +56,7 @@ def parse_trade_table(html: str) -> list[dict]:
         for th in header_row.find_all(["th", "td"]):
             headers.append(th.get_text(strip=True))
 
-        if not any(kw in " ".join(headers).lower() for kw in ["country", "value", "quantity"]):
+        if not headers:
             continue
 
         for row in rows[1:]:

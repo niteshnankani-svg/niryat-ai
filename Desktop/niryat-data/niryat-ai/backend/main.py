@@ -10,7 +10,8 @@ from rag import query_chromadb
 from scraper import fetch_trade_data
 from buyer_leads import get_buyer_leads, PREMIUM_EMAILS
 
-load_dotenv()
+_env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+load_dotenv(_env_path, override=True)
 
 app = FastAPI(title="NiryatAI Backend")
 
@@ -90,7 +91,7 @@ async def chat(req: ChatRequest):
         messages.append({"role": "user", "content": req.message})
 
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model="claude-haiku-4-5-20251001",
             max_tokens=2048,
             system=system,
             messages=messages,
