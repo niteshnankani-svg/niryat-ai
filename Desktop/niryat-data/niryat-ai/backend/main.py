@@ -1,6 +1,8 @@
 import os
+import json
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import Optional
 from dotenv import load_dotenv
@@ -25,30 +27,15 @@ app.add_middleware(
 
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-SYSTEM_PROMPT = """You are NiryatAI — India's most helpful export assistant. You speak like a knowledgeable, friendly mentor who explains things simply, with real examples, step by step. You help first-time exporters and occasional exporters navigate the entire export journey.
+SYSTEM_PROMPT = """You are NiryatAI — India's export mentor. Explain simply with real examples, step-by-step.
 
-When answering, always:
-- Use simple language with real examples
-- Give step-by-step numbered format for processes
-- Mention relevant government portals (dgft.gov.in, icegate.gov.in)
-- Be encouraging — export feels overwhelming but it's learnable
-- When asked for buyers in a country, respond with [BUYER_REQUEST:COUNTRY_NAME]
+Rules:
+- Numbered steps for processes
+- Mention portals: dgft.gov.in, icegate.gov.in
+- Be encouraging and practical
+- For buyer requests respond with [BUYER_REQUEST:COUNTRY_NAME]
 
-Key knowledge areas:
-- IEC registration (dgft.gov.in, ₹500 fee, PAN+Aadhaar+cancelled cheque)
-- AD Code registration on ICEGATE
-- All 11 Incoterms 2020 (EXW, FCA, FAS, FOB, CFR, CIF, CPT, CIP, DAP, DPU, DDP)
-- FOB/CFR/CIF costing calculation
-- Payment terms (Advance, LC, DP, DA)
-- Trade documents (Commercial Invoice, Packing List, BL, Certificate of Origin, Shipping Bill)
-- LOI, SCO, FCO, NCNDA, IMFPA explained
-- Government schemes: Drawback, RoDTEP, IGST refund, MEIS, SEIS
-- MEIS Group A (USA, UK, Germany, France + 26 EU countries)
-- MEIS Group B (UAE, Saudi, China, Brazil, 139 countries)
-- APEDA labs for food testing
-- Organic certification (NPOP, USDA NOP)
-- 3-month business plan for new exporters
-- Quotation 8 elements: Description, Quality, Packing, Incoterms, Price, Payment Terms, Validity, Other conditions"""
+You know: IEC registration (₹500, PAN+Aadhaar+cheque), AD Code, Incoterms 2020, FOB/CFR/CIF costing, payment terms (Advance/LC/DP/DA), export documents, LOI/SCO/FCO/NCNDA, govt schemes (Drawback/RoDTEP/MEIS/SEIS), APEDA labs, organic certification, 3-month export business plan."""
 
 
 class ChatRequest(BaseModel):
@@ -72,32 +59,45 @@ class BuyerLeadsRequest(BaseModel):
 @app.post("/chat")
 async def chat(req: ChatRequest):
     try:
-        rag_results = query_chromadb(req.message)
+        rag_results = query_chromadb(req.message, n_results=3)
         rag_context = ""
         if rag_results and rag_results.get("documents"):
             chunks = rag_results["documents"][0]
-            rag_context = "\n\n---\n\n".join(chunks)
+            rag_context = "\n---\n".join(chunks)
 
         system = SYSTEM_PROMPT
         if rag_context:
-            system += f"\n\nRelevant knowledge from export documents:\n{rag_context}"
+            system += f"\n\nRelevant context:\n{rag_context}"
 
         messages = []
-        for msg in req.history[-10:]:
+        for msg in req.history[-6:]:
             messages.append({
                 "role": msg.get("role", "user"),
                 "content": msg.get("content", ""),
             })
         messages.append({"role": "user", "content": req.message})
 
-        response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=2048,
-            system=system,
-            messages=messages,
-        )
+        def generate():
+            with client.messages.stream(
+                model="claude-haiku-4-5-20251001",
+                max_tokens=600,
+                system=system,
+                messages=messages,
+            ) as stream:
+                for text in stream.text_stream:
+                    chunk_data = json.dumps({"chunk": text})
+                    yield f"data: {chunk_data}\n\n"
+            yield "data: [DONE]\n\n"
 
-        return {"response": response.content[0].text}
+        return StreamingResponse(
+            generate(),
+            media_type="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive",
+                "X-Accel-Buffering": "no",
+            },
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

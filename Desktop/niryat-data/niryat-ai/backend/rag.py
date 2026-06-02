@@ -18,7 +18,7 @@ def get_collection():
     )
 
 
-def query_chromadb(query_text: str, n_results: int = 5) -> dict:
+def query_chromadb(query_text: str, n_results: int = 3) -> dict:
     try:
         collection = get_collection()
         if collection.count() == 0:
