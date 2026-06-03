@@ -24,9 +24,10 @@ const SUGGESTED = [
 
 const BUYER_PATTERN = /\[BUYER_REQUEST:([A-Z_ ]+)\]/
 
-function BuyerCard({ lead }) {
+function BuyerCard({ lead, locked }) {
+  const isLocked = locked && lead.email?.includes('🔒')
   return (
-    <div className="buyer-card">
+    <div className={`buyer-card ${isLocked ? 'buyer-card-locked' : ''}`}>
       <div className="buyer-card-header">
         <span className="buyer-avatar">{lead.company[0]}</span>
         <div>
@@ -36,9 +37,54 @@ function BuyerCard({ lead }) {
       </div>
       <div className="buyer-details">
         <div className="buyer-detail"><span className="detail-icon">📦</span>{lead.product}</div>
-        <div className="buyer-detail"><span className="detail-icon">👤</span>{lead.contact_person}</div>
-        <div className="buyer-detail"><span className="detail-icon">📧</span>{lead.email}</div>
-        <div className="buyer-detail"><span className="detail-icon">📞</span>{lead.phone}</div>
+        <div className={`buyer-detail ${isLocked ? 'blurred' : ''}`}><span className="detail-icon">👤</span>{lead.contact_person}</div>
+        <div className={`buyer-detail ${isLocked ? 'blurred' : ''}`}><span className="detail-icon">📧</span>{lead.email}</div>
+        <div className={`buyer-detail ${isLocked ? 'blurred' : ''}`}><span className="detail-icon">📞</span>{lead.phone}</div>
+      </div>
+    </div>
+  )
+}
+
+function UnlockModal({ onClose, onSubmit }) {
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [product, setProduct] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (!email.trim() || !email.includes('@')) return
+    onSubmit({ email: email.trim(), name: name.trim(), product: product.trim() })
+    onClose()
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal unlock-modal" onClick={e => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>&times;</button>
+        <div className="modal-icon">🔓</div>
+        <h3>Unlock Buyer Contacts</h3>
+        <p className="modal-sub">Get full contact details — name, email, phone — for verified international buyers. Free forever.</p>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Your Email *</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+              placeholder="you@company.com" required autoFocus />
+          </div>
+          <div className="form-group">
+            <label>Your Name</label>
+            <input type="text" value={name} onChange={e => setName(e.target.value)}
+              placeholder="e.g. Rajesh Patel" />
+          </div>
+          <div className="form-group">
+            <label>Product You Export</label>
+            <input type="text" value={product} onChange={e => setProduct(e.target.value)}
+              placeholder="e.g. Basmati Rice, Spices, Textiles" />
+          </div>
+          <button type="submit" className="modal-submit unlock-submit">
+            🔓 Unlock All Buyer Contacts
+          </button>
+          <p className="modal-fine">No spam. No payment. We just want to know who's using NiryatAI.</p>
+        </form>
       </div>
     </div>
   )
@@ -186,6 +232,9 @@ function App() {
   const [tradeLoading, setTradeLoading] = useState(false)
   const [exchangeRate, setExchangeRate] = useState(null)
   const [currency, setCurrency] = useState('USD')
+  const [userEmail, setUserEmail] = useState(() => localStorage.getItem('niryatai_email') || '')
+  const [showUnlockModal, setShowUnlockModal] = useState(false)
+  const [lastBuyerCountry, setLastBuyerCountry] = useState('')
   const chatEndRef = useRef(null)
 
   useEffect(() => {
@@ -195,16 +244,40 @@ function App() {
       .catch(() => setExchangeRate(85))
   }, [])
 
+  async function handleUnlock({ email, name, product }) {
+    try {
+      await fetch(`${API_URL}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name, product }),
+      })
+      localStorage.setItem('niryatai_email', email)
+      setUserEmail(email)
+      if (lastBuyerCountry) {
+        const res = await fetch(`${API_URL}/buyerleads`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ country: lastBuyerCountry, product: '', user_email: email }),
+        })
+        const data = await res.json()
+        if (data.leads && data.leads.length > 0) setBuyerLeads(data)
+      }
+    } catch (e) {
+      console.error('Registration error:', e)
+    }
+  }
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, streamingText, tradeData])
 
   async function fetchBuyerLeads(country) {
+    setLastBuyerCountry(country)
     try {
       const res = await fetch(`${API_URL}/buyerleads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ country, product: '', user_email: '' }),
+        body: JSON.stringify({ country, product: '', user_email: userEmail }),
       })
       const data = await res.json()
       if (data.leads && data.leads.length > 0) setBuyerLeads(data)
@@ -350,6 +423,10 @@ function App() {
         <TradeDataModal onClose={() => setShowTradeModal(false)} onSubmit={fetchTradeData} />
       )}
 
+      {showUnlockModal && (
+        <UnlockModal onClose={() => setShowUnlockModal(false)} onSubmit={handleUnlock} />
+      )}
+
       <main className="chat-area">
         {showWelcome && (
           <div className="welcome">
@@ -414,14 +491,21 @@ function App() {
 
         {buyerLeads && buyerLeads.leads && buyerLeads.leads.length > 0 && (
           <div className="buyer-leads-section">
-            <h3>🌍 Buyer Leads {buyerLeads.premium ? '' : '(Free Preview)'}</h3>
-            <div className="buyer-grid">
-              {buyerLeads.leads.map((lead, i) => <BuyerCard key={i} lead={lead} />)}
+            <div className="buyer-leads-header">
+              <h3>🌍 Buyer Leads ({buyerLeads.leads.length} found)</h3>
+              {(buyerLeads.premium || buyerLeads.registered) && (
+                <span className="unlocked-badge">✅ Unlocked</span>
+              )}
             </div>
-            {!buyerLeads.premium && (
-              <div className="premium-cta">
-                <span>🔓</span> Unlock full contact details with Premium
-              </div>
+            <div className="buyer-grid">
+              {buyerLeads.leads.map((lead, i) => (
+                <BuyerCard key={i} lead={lead} locked={!buyerLeads.premium && !buyerLeads.registered} />
+              ))}
+            </div>
+            {!buyerLeads.premium && !buyerLeads.registered && (
+              <button className="premium-cta" onClick={() => setShowUnlockModal(true)}>
+                🔓 Enter your email to unlock all buyer contacts — Free
+              </button>
             )}
           </div>
         )}

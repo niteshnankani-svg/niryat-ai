@@ -115,16 +115,54 @@ async def trade_data(req: TradeDataRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+REGISTERED_EMAILS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "registered_emails.json")
+
+
+def load_registered_emails() -> dict:
+    try:
+        with open(REGISTERED_EMAILS_FILE, "r") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+
+def save_registered_email(email: str, product: str, name: str = ""):
+    emails = load_registered_emails()
+    emails[email.lower()] = {
+        "product": product,
+        "name": name,
+        "registered_at": __import__("datetime").datetime.now().isoformat(),
+    }
+    with open(REGISTERED_EMAILS_FILE, "w") as f:
+        json.dump(emails, f, indent=2)
+
+
+class RegisterRequest(BaseModel):
+    email: str
+    product: str = ""
+    name: str = ""
+
+
+@app.post("/register")
+async def register(req: RegisterRequest):
+    if not req.email or "@" not in req.email:
+        raise HTTPException(status_code=400, detail="Valid email required")
+    save_registered_email(req.email, req.product, req.name)
+    return {"status": "ok", "message": "Registered successfully"}
+
+
 @app.post("/buyerleads")
 async def buyer_leads(req: BuyerLeadsRequest):
+    registered = load_registered_emails()
     is_premium = req.user_email.lower() in PREMIUM_EMAILS
+    is_registered = req.user_email.lower() in registered
     leads = get_buyer_leads(req.country, req.product)
 
     if not leads:
         return {"leads": [], "message": f"No buyer leads found for {req.country}"}
 
-    if is_premium:
-        return {"leads": leads, "premium": True}
+    if is_premium or is_registered:
+        return {"leads": leads, "premium": is_premium, "registered": is_registered}
 
     blurred = []
     for lead in leads:
@@ -132,12 +170,12 @@ async def buyer_leads(req: BuyerLeadsRequest):
             "company": lead.get("company", ""),
             "product": lead.get("product", ""),
             "city": lead.get("city", ""),
-            "contact_person": "🔒 Unlock with Premium",
-            "email": "🔒 Unlock with Premium",
-            "phone": "🔒 Unlock with Premium",
-            "website": "🔒 Unlock with Premium",
+            "contact_person": "🔒 Unlock",
+            "email": "🔒 Unlock",
+            "phone": "🔒 Unlock",
+            "website": "🔒 Unlock",
         })
-    return {"leads": blurred, "premium": False}
+    return {"leads": blurred, "premium": False, "registered": False}
 
 
 @app.get("/health")

@@ -392,7 +392,18 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.buyer-leads-section h3 { color: #ff8f5e; font-size: 15px; margin-bottom: 14px; font-weight: 700; }
+.buyer-leads-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.buyer-leads-section h3 { color: #ff8f5e; font-size: 15px; font-weight: 700; }
+
+.unlocked-badge {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(76, 175, 80, 0.1);
+  color: #66bb6a;
+  font-weight: 600;
+  border: 1px solid rgba(76, 175, 80, 0.15);
+}
 
 .buyer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 
@@ -431,16 +442,61 @@ body {
 .buyer-detail { font-size: 12px; color: #8890a8; display: flex; align-items: center; gap: 6px; }
 .detail-icon { font-size: 12px; }
 
+.blurred {
+  filter: blur(4px);
+  user-select: none;
+  pointer-events: none;
+}
+
+.buyer-card-locked {
+  position: relative;
+}
+
+.buyer-card-locked::after {
+  content: '🔒';
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 14px;
+}
+
 .premium-cta {
+  display: block;
+  width: 100%;
   text-align: center;
   margin-top: 14px;
-  padding: 12px;
+  padding: 14px;
   background: linear-gradient(135deg, rgba(255,107,53,0.15), rgba(255,107,53,0.05));
   color: #ff8f5e;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  border: 1px solid rgba(255,107,53,0.15);
+  border: 1px solid rgba(255,107,53,0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.premium-cta:hover {
+  background: linear-gradient(135deg, rgba(255,107,53,0.25), rgba(255,107,53,0.1));
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255,107,53,0.15);
+}
+
+.unlock-modal .modal-fine {
+  text-align: center;
+  color: #5a6280;
+  font-size: 11px;
+  margin-top: 12px;
+}
+
+.unlock-submit {
+  background: linear-gradient(135deg, #66bb6a, #43a047) !important;
+  box-shadow: 0 4px 15px rgba(76,175,80,0.25) !important;
+}
+
+.unlock-submit:hover {
+  box-shadow: 0 6px 20px rgba(76,175,80,0.35) !important;
 }
 
 /* ===== INPUT ===== */

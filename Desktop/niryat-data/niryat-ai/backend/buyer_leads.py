@@ -1,7 +1,21 @@
+import os
+import json
+
 PREMIUM_EMAILS = {
     "admin@niryatai.com",
     "demo@niryatai.com",
 }
+
+SCRAPED_DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "buyer_leads_data.json")
+
+
+def load_scraped_leads() -> dict:
+    """Load scraped buyer leads from JSON file."""
+    try:
+        with open(SCRAPED_DATA_FILE, "r") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
 
 BUYER_LEADS_DB = {
     "USA": [
@@ -146,13 +160,23 @@ BUYER_LEADS_DB = {
 
 def get_buyer_leads(country: str, product: str | None = None) -> list[dict]:
     country_upper = country.strip().upper()
+
+    # First check scraped data (real leads from Apify)
+    scraped = load_scraped_leads()
+    for key, leads in scraped.items():
+        if key.upper() == country_upper:
+            if product:
+                filtered = [l for l in leads if product.lower() in l.get("product", "").lower()]
+                if filtered:
+                    return filtered
+            return leads
+
+    # Fallback to hardcoded sample data
     for key, leads in BUYER_LEADS_DB.items():
         if key.upper() == country_upper:
             if product:
-                filtered = [
-                    l for l in leads
-                    if product.lower() in l.get("product", "").lower()
-                ]
+                filtered = [l for l in leads if product.lower() in l.get("product", "").lower()]
                 return filtered if filtered else leads
             return leads
+
     return []
