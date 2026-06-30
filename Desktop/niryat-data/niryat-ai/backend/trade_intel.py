@@ -13,6 +13,7 @@ _DIR = os.path.dirname(os.path.abspath(__file__))
 _CSV_FILES = [
     os.path.join(_DIR, "data", "export_table_2023.csv"),
     os.path.join(_DIR, "data", "export_table_spices_2023.csv"),
+    os.path.join(_DIR, "data", "export_table_leather_2023.csv"),
 ]
 
 _PRODUCTS_JSON = os.path.join(_DIR, "products.json")

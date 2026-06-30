@@ -1,11 +1,11 @@
 """
 NiryatAI Export Reference Table
-Fetches world imports + India exports for 10 cotton/garment products from UN Comtrade.
-Output: data/export_table_2023.csv
+Fetches world imports + India exports for finished leather goods from UN Comtrade.
+Output: data/export_table_leather_2023.csv
 
 Strategy:
-  - World imports: one call per reporter country with all 10 HS4 codes comma-separated
-    (252 calls max, cached per country in raw/comtrade/all10_2023_{code}.json)
+  - World imports: one call per reporter country with all HS4 codes comma-separated
+    (252 calls max, cached per country in raw/comtrade/ch42_2023_{code}.json)
   - India exports: one call per product, flowCode=X, reporterCode=699
   - Clean filter before summing: customsCode=="C00" AND motCode==0
 """
@@ -28,24 +28,24 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "data")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 PRODUCTS = [
-    ("0904", "Pepper; dried/crushed Capsicum & Pimenta"),
-    ("0905", "Vanilla"),
-    ("0906", "Cinnamon"),
-    ("0907", "Cloves"),
-    ("0908", "Nutmeg, mace & cardamoms"),
-    ("0909", "Anise, coriander, cumin, caraway seeds"),
-    ("0910", "Ginger, turmeric, curry & other spices"),
-    ("0901", "Coffee"),
-    ("0902", "Tea"),
-    ("0903", "Mate"),
+    ("4202", "Bags, wallets, cases"),
+    ("4203", "Leather apparel & gloves"),
+    ("4205", "Other leather articles"),
+    ("4201", "Saddlery & harness"),
+    ("6403", "Leather footwear"),
+    ("6404", "Footwear, textile upper"),
+    ("4302", "Tanned fur skins"),
 ]
 
 HS4_CODES    = [hs for hs, _ in PRODUCTS]
-CMD_PARAM    = ",".join(HS4_CODES)   # all 10 in one API param
+CMD_PARAM    = ",".join(HS4_CODES)
 INDIA_CODE   = 699
 
-# Cache tag derived from the product set so different runs don't share files
-CACHE_TAG    = "ch" + "_".join(sorted(set(hs[:2] for hs in HS4_CODES)))
+# Fixed cache tag — keeps leather cache isolated from cotton/spice runs
+CACHE_TAG    = "ch42"
+OUT_FILE     = "export_table_leather_2023.csv"
+SANITY_HS    = "4202"
+SANITY_RANGE = (30_000, 40_000)   # expected world imports for 4202 in $M
 
 def is_clean(row):
     return row.get("customsCode") == "C00" and row.get("motCode") == 0
@@ -189,23 +189,25 @@ def main():
         })
 
     # --- Step 3: sanity check ---
-    check = next(r for r in results if r["hs_code"] == "0904")
-    w_check = check["world_imports_usd_m"]
-    print(f"\nSANITY CHECK 0904 (pepper) → world_imports = {w_check}M")
-    if w_check == "no data":
-        print("  FAIL — no data returned for 0904")
-    else:
-        val = int(w_check)
-        if 3000 <= val <= 7000:
-            print(f"  OK — {val} is within expected range $3B–$7B")
-        elif val > 20000:
-            print(f"  FAIL — {val} looks like a double-count. STOP.")
-            return
+    check = next((r for r in results if r["hs_code"] == SANITY_HS), None)
+    if check:
+        w_check = check["world_imports_usd_m"]
+        lo, hi = SANITY_RANGE
+        print(f"\nSANITY CHECK {SANITY_HS} → world_imports = {w_check}M  (expected ${lo//1000}B–${hi//1000}B)")
+        if w_check == "no data":
+            print("  FAIL — no data. Possible cache collision — check CACHE_TAG.")
         else:
-            print(f"  WARNING — {val} is outside expected 3000–7000, review before using.")
+            val = int(w_check)
+            if lo <= val <= hi:
+                print(f"  OK — {val} is within expected range")
+            elif val > hi * 3:
+                print(f"  FAIL — {val} looks like a double-count. STOP.")
+                return
+            else:
+                print(f"  WARNING — {val} is outside expected range, review before using.")
 
     # --- Step 4: write CSV ---
-    out_path = os.path.join(OUT_DIR, "export_table_spices_2023.csv")
+    out_path = os.path.join(OUT_DIR, OUT_FILE)
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
             f, fieldnames=["hs_code", "product", "world_imports_usd_m", "india_exports_usd_m"]
