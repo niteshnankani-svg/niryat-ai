@@ -11,6 +11,7 @@ const TOPICS = [
   { icon: '📊', label: 'Costing', query: 'How do I calculate FOB, CFR and CIF price for my export product?' },
   { icon: '🏛️', label: 'Govt Schemes', query: 'What government schemes and incentives are available for Indian exporters?' },
   { icon: '🌍', label: 'Find Buyers', query: 'How do I find international buyers for my products?' },
+  { icon: '📈', label: 'Trade Data', special: 'trade' },
 ]
 
 const SUGGESTED = [
@@ -24,22 +25,174 @@ const SUGGESTED = [
 
 const BUYER_PATTERN = /\[BUYER_REQUEST:([A-Z_ ]+)\]/
 
+/* ─── Components ─── */
+
 function BuyerCard({ lead, locked }) {
   const isLocked = locked && lead.email?.includes('🔒')
   return (
-    <div className={`buyer-card ${isLocked ? 'buyer-card-locked' : ''}`}>
-      <div className="buyer-card-header">
-        <span className="buyer-avatar">{lead.company[0]}</span>
-        <div>
-          <div className="buyer-company">{lead.company}</div>
-          <div className="buyer-city">{lead.city}</div>
+    <div className={`buyer-card ${isLocked ? 'locked' : ''}`}>
+      {isLocked && <div className="lock-badge">🔒</div>}
+      <div className="bc-header">
+        <div className="bc-avatar">{lead.company[0]}</div>
+        <div className="bc-info">
+          <div className="bc-name">{lead.company}</div>
+          <div className="bc-city">{lead.city}</div>
         </div>
       </div>
-      <div className="buyer-details">
-        <div className="buyer-detail"><span className="detail-icon">📦</span>{lead.product}</div>
-        <div className={`buyer-detail ${isLocked ? 'blurred' : ''}`}><span className="detail-icon">👤</span>{lead.contact_person}</div>
-        <div className={`buyer-detail ${isLocked ? 'blurred' : ''}`}><span className="detail-icon">📧</span>{lead.email}</div>
-        <div className={`buyer-detail ${isLocked ? 'blurred' : ''}`}><span className="detail-icon">📞</span>{lead.phone}</div>
+      <div className="bc-product">{lead.product}</div>
+      <div className="bc-contacts">
+        <div className={`bc-row ${isLocked ? 'blur' : ''}`}>
+          <span className="bc-label">Contact</span>
+          <span className="bc-value">{lead.contact_person}</span>
+        </div>
+        <div className={`bc-row ${isLocked ? 'blur' : ''}`}>
+          <span className="bc-label">Email</span>
+          <span className="bc-value">{lead.email}</span>
+        </div>
+        <div className={`bc-row ${isLocked ? 'blur' : ''}`}>
+          <span className="bc-label">Phone</span>
+          <span className="bc-value">{lead.phone}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function TradeDataTable({ data, exchangeRate, currency }) {
+  if (!data || data.length === 0) return null
+  const valueKeys = Object.keys(data[0]).filter(k => k.match(/^\d{4}/) || k === '%Share' || k === '%Growth')
+  return (
+    <div className="trade-section animate-in">
+      <div className="trade-bar">
+        <div className="trade-bar-left">
+          <span className="trade-dot" />
+          <span className="trade-title">DGFT Trade Statistics</span>
+        </div>
+        <div className="trade-bar-right">
+          {exchangeRate && <span className="fx-pill">1 USD = ₹{exchangeRate.toFixed(1)}</span>}
+          <span className="count-pill">{data.length} results</span>
+        </div>
+      </div>
+      <div className="trade-scroll">
+        <table className="trade-table">
+          <thead>
+            <tr>
+              <th className="th-num">#</th>
+              <th className="th-code">HS Code</th>
+              <th>Commodity</th>
+              {valueKeys.map(k => {
+                if (k === '%Share' || k === '%Growth') return <th key={k} className="th-right">{k}</th>
+                return <th key={k} className="th-right">{currency === 'INR' ? `${k} (₹Cr)` : `${k} ($M)`}</th>
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {data.slice(0, 30).map((row, i) => (
+              <tr key={i}>
+                <td className="td-num">{row['S.No.'] || i + 1}</td>
+                <td className="td-code">{row['HSCode']}</td>
+                <td className="td-comm">{row['Commodity']}</td>
+                {valueKeys.map(k => {
+                  let val = row[k] || ''
+                  if (currency === 'INR' && k.match(/^\d{4}/) && exchangeRate && val) {
+                    const num = parseFloat(val.replace(/,/g, ''))
+                    if (!isNaN(num)) val = (num * exchangeRate / 10).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                  }
+                  const isGrowth = k === '%Growth'
+                  const cls = isGrowth && val ? (parseFloat(val) >= 0 ? 'green' : 'red') : ''
+                  return <td key={k} className={`td-right ${cls}`}>{val}{isGrowth && val ? '%' : ''}</td>
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {data.length > 30 && <div className="trade-footer">Showing 30 of {data.length}</div>}
+    </div>
+  )
+}
+
+function MarketIntelCard({ intel }) {
+  if (!intel || intel.world_imports_usd_m == null) return null
+  const fmt = (n) => n == null ? '—' : n >= 1000 ? `$${(n / 1000).toFixed(1)}B` : `$${Math.round(n)}M`
+  const yoy = intel.dgft_yoy_growth_pct
+  const yoyColor = yoy == null ? '' : yoy >= 0 ? 'intel-green' : 'intel-red'
+  return (
+    <div className="intel-card animate-in">
+      <div className="intel-header">
+        <span className="intel-dot" />
+        <span className="intel-title">World Market · {intel.commodity || `HS ${intel.hs_code}`}</span>
+        <span className="intel-badge">Comtrade 2023</span>
+      </div>
+      <div className="intel-grid">
+        <div className="intel-stat">
+          <div className="intel-val">{fmt(intel.world_imports_usd_m)}</div>
+          <div className="intel-lbl">World imports</div>
+        </div>
+        <div className="intel-stat">
+          <div className="intel-val">{fmt(intel.india_exports_usd_m)}</div>
+          <div className="intel-lbl">India exports</div>
+        </div>
+        <div className="intel-stat">
+          <div className="intel-val">{intel.india_share_pct != null ? `${intel.india_share_pct}%` : '—'}</div>
+          <div className="intel-lbl">India's share</div>
+        </div>
+        <div className="intel-stat">
+          <div className={`intel-val ${yoyColor}`}>{yoy != null ? `${yoy > 0 ? '+' : ''}${yoy}%` : '—'}</div>
+          <div className="intel-lbl">YoY growth</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function TradeDataModal({ onClose, onSubmit }) {
+  const [hsCode, setHsCode] = useState('')
+  const [year, setYear] = useState('2024')
+  const [tradeType, setTradeType] = useState('export')
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (!hsCode.trim()) return
+    onSubmit({ hs_code: hsCode.trim(), year: `${year}-${parseInt(year) + 1}`, trade_type: tradeType })
+    onClose()
+  }
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="modal animate-modal" onClick={e => e.stopPropagation()}>
+        <button className="modal-x" onClick={onClose}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+        </button>
+        <div className="modal-header">
+          <div className="modal-icon-wrap"><span>📈</span></div>
+          <h3>Trade Data Lookup</h3>
+          <p>Live statistics from DGFT TradeStat</p>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label>HS Code</label>
+            <input type="text" value={hsCode} onChange={e => setHsCode(e.target.value)}
+              placeholder="0902, 6203, 1006..." maxLength={8} autoFocus />
+          </div>
+          <div className="field-row">
+            <div className="field f1">
+              <label>Year</label>
+              <select value={year} onChange={e => setYear(e.target.value)}>
+                <option value="2025">2025-26</option>
+                <option value="2024">2024-25</option>
+                <option value="2023">2023-24</option>
+                <option value="2022">2022-23</option>
+              </select>
+            </div>
+            <div className="field f1">
+              <label>Type</label>
+              <div className="seg">
+                <button type="button" className={tradeType === 'export' ? 'active' : ''} onClick={() => setTradeType('export')}>Export</button>
+                <button type="button" className={tradeType === 'import' ? 'active' : ''} onClick={() => setTradeType('import')}>Import</button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" className="btn-primary">Search</button>
+        </form>
       </div>
     </div>
   )
@@ -49,160 +202,40 @@ function UnlockModal({ onClose, onSubmit }) {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [product, setProduct] = useState('')
-
   function handleSubmit(e) {
     e.preventDefault()
     if (!email.trim() || !email.includes('@')) return
     onSubmit({ email: email.trim(), name: name.trim(), product: product.trim() })
     onClose()
   }
-
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal unlock-modal" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>&times;</button>
-        <div className="modal-icon">🔓</div>
-        <h3>Unlock Buyer Contacts</h3>
-        <p className="modal-sub">Get full contact details — name, email, phone — for verified international buyers. Free forever.</p>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Your Email *</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-              placeholder="you@company.com" required autoFocus />
-          </div>
-          <div className="form-group">
-            <label>Your Name</label>
-            <input type="text" value={name} onChange={e => setName(e.target.value)}
-              placeholder="e.g. Rajesh Patel" />
-          </div>
-          <div className="form-group">
-            <label>Product You Export</label>
-            <input type="text" value={product} onChange={e => setProduct(e.target.value)}
-              placeholder="e.g. Basmati Rice, Spices, Textiles" />
-          </div>
-          <button type="submit" className="modal-submit unlock-submit">
-            🔓 Unlock All Buyer Contacts
-          </button>
-          <p className="modal-fine">No spam. No payment. We just want to know who's using NiryatAI.</p>
-        </form>
-      </div>
-    </div>
-  )
-}
-
-function TradeDataTable({ data, exchangeRate, currency }) {
-  if (!data || data.length === 0) return null
-
-  const valueKeys = Object.keys(data[0]).filter(k =>
-    k.match(/^\d{4}/) || k === '%Share' || k === '%Growth'
-  )
-
-  return (
-    <div className="trade-section">
-      <div className="trade-header-bar">
-        <h3>DGFT Trade Statistics</h3>
-        <div className="trade-meta">
-          {exchangeRate && <span className="exchange-badge">1 USD = {exchangeRate} INR</span>}
-          <span className="result-count">{data.length} results</span>
+    <div className="overlay" onClick={onClose}>
+      <div className="modal animate-modal" onClick={e => e.stopPropagation()}>
+        <button className="modal-x" onClick={onClose}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+        </button>
+        <div className="modal-header">
+          <div className="modal-icon-wrap green"><span>🔓</span></div>
+          <h3>Unlock Buyer Contacts</h3>
+          <p>Free access to verified emails & phone numbers</p>
         </div>
-      </div>
-      <div className="trade-table-wrap">
-        <table className="trade-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>HS Code</th>
-              <th>Commodity</th>
-              {valueKeys.map(k => {
-                if (k === '%Share' || k === '%Growth') return <th key={k}>{k}</th>
-                const label = currency === 'INR' ? `${k} (Cr)` : `${k} ($M)`
-                return <th key={k}>{label}</th>
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {data.slice(0, 30).map((row, i) => (
-              <tr key={i}>
-                <td className="td-num">{row['S.No.'] || i + 1}</td>
-                <td className="td-code">{row['HSCode']}</td>
-                <td className="td-commodity">{row['Commodity']}</td>
-                {valueKeys.map(k => {
-                  let val = row[k] || ''
-                  if (currency === 'INR' && k.match(/^\d{4}/) && exchangeRate && val) {
-                    const num = parseFloat(val.replace(/,/g, ''))
-                    if (!isNaN(num)) {
-                      val = (num * exchangeRate / 10).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                    }
-                  }
-                  const isGrowth = k === '%Growth'
-                  const growthClass = isGrowth && val ? (parseFloat(val) >= 0 ? 'positive' : 'negative') : ''
-                  return <td key={k} className={`td-val ${growthClass}`}>{val}{isGrowth && val ? '%' : ''}</td>
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {data.length > 30 && (
-        <div className="trade-table-note">Showing top 30 of {data.length} results</div>
-      )}
-    </div>
-  )
-}
-
-function TradeDataModal({ onClose, onSubmit }) {
-  const [hsCode, setHsCode] = useState('')
-  const [year, setYear] = useState('2024')
-  const [tradeType, setTradeType] = useState('export')
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    if (!hsCode.trim()) return
-    onSubmit({ hs_code: hsCode.trim(), year: `${year}-${parseInt(year) + 1}`, trade_type: tradeType })
-    onClose()
-  }
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>&times;</button>
-        <div className="modal-icon">📈</div>
-        <h3>DGFT Trade Data</h3>
-        <p className="modal-sub">Live data from tradestat.commerce.gov.in</p>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>HS Code</label>
-            <input
-              type="text"
-              value={hsCode}
-              onChange={e => setHsCode(e.target.value)}
-              placeholder="e.g. 0902 (Tea), 6203 (Garments)"
-              maxLength={8}
-              autoFocus
-            />
+          <div className="field">
+            <label>Email address</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@company.com" required autoFocus />
           </div>
-          <div className="form-row">
-            <div className="form-group flex-1">
-              <label>Year</label>
-              <select value={year} onChange={e => setYear(e.target.value)}>
-                <option value="2025">2025-2026</option>
-                <option value="2024">2024-2025</option>
-                <option value="2023">2023-2024</option>
-                <option value="2022">2022-2023</option>
-                <option value="2021">2021-2022</option>
-              </select>
+          <div className="field-row">
+            <div className="field f1">
+              <label>Name</label>
+              <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Your name" />
             </div>
-            <div className="form-group flex-1">
-              <label>Type</label>
-              <div className="toggle-group">
-                <button type="button" className={`toggle-btn ${tradeType === 'export' ? 'active' : ''}`}
-                  onClick={() => setTradeType('export')}>Export</button>
-                <button type="button" className={`toggle-btn ${tradeType === 'import' ? 'active' : ''}`}
-                  onClick={() => setTradeType('import')}>Import</button>
-              </div>
+            <div className="field f1">
+              <label>Product</label>
+              <input type="text" value={product} onChange={e => setProduct(e.target.value)} placeholder="e.g. Rice, Spices" />
             </div>
           </div>
-          <button type="submit" className="modal-submit">Search Trade Data</button>
+          <button type="submit" className="btn-primary btn-green">Unlock All Contacts</button>
+          <p className="fine">No payment required. No spam.</p>
         </form>
       </div>
     </div>
@@ -218,8 +251,11 @@ function formatMessage(text) {
     .replace(/^- (.+)$/gm, '<li>$1</li>')
     .replace(/^(\d+)\. (.+)$/gm, '<li>$1. $2</li>')
     .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/---/g, '<hr/>')
     .replace(/\n/g, '<br/>')
 }
+
+/* ─── App ─── */
 
 function App() {
   const [messages, setMessages] = useState([])
@@ -229,132 +265,79 @@ function App() {
   const [buyerLeads, setBuyerLeads] = useState(null)
   const [tradeData, setTradeData] = useState(null)
   const [showTradeModal, setShowTradeModal] = useState(false)
+  const [showUnlockModal, setShowUnlockModal] = useState(false)
   const [tradeLoading, setTradeLoading] = useState(false)
+  const [tradeIntel, setTradeIntel] = useState(null)
   const [exchangeRate, setExchangeRate] = useState(null)
   const [currency, setCurrency] = useState('USD')
   const [userEmail, setUserEmail] = useState(() => localStorage.getItem('niryatai_email') || '')
-  const [showUnlockModal, setShowUnlockModal] = useState(false)
   const [lastBuyerCountry, setLastBuyerCountry] = useState('')
   const chatEndRef = useRef(null)
 
   useEffect(() => {
-    fetch(EXCHANGE_API)
-      .then(r => r.json())
-      .then(d => setExchangeRate(d.rates?.INR || 85))
-      .catch(() => setExchangeRate(85))
+    fetch(EXCHANGE_API).then(r => r.json()).then(d => setExchangeRate(d.rates?.INR || 85)).catch(() => setExchangeRate(85))
   }, [])
+
+  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages, streamingText, tradeData])
 
   async function handleUnlock({ email, name, product }) {
     try {
-      await fetch(`${API_URL}/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name, product }),
-      })
+      await fetch(`${API_URL}/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, name, product }) })
       localStorage.setItem('niryatai_email', email)
       setUserEmail(email)
       if (lastBuyerCountry) {
-        const res = await fetch(`${API_URL}/buyerleads`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ country: lastBuyerCountry, product: '', user_email: email }),
-        })
+        const res = await fetch(`${API_URL}/buyerleads`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ country: lastBuyerCountry, product: '', user_email: email }) })
         const data = await res.json()
-        if (data.leads && data.leads.length > 0) setBuyerLeads(data)
+        if (data.leads?.length > 0) setBuyerLeads(data)
       }
-    } catch (e) {
-      console.error('Registration error:', e)
-    }
+    } catch (e) { console.error('Registration error:', e) }
   }
-
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, streamingText, tradeData])
 
   async function fetchBuyerLeads(country) {
     setLastBuyerCountry(country)
     try {
-      const res = await fetch(`${API_URL}/buyerleads`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ country, product: '', user_email: userEmail }),
-      })
+      const res = await fetch(`${API_URL}/buyerleads`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ country, product: '', user_email: userEmail }) })
       const data = await res.json()
-      if (data.leads && data.leads.length > 0) setBuyerLeads(data)
-    } catch (e) {
-      console.error('Buyer leads error:', e)
-    }
+      if (data.leads?.length > 0) setBuyerLeads(data)
+    } catch (e) { console.error('Buyer leads error:', e) }
   }
 
   async function fetchTradeData({ hs_code, year, trade_type }) {
-    setTradeLoading(true)
-    setTradeData(null)
-    setMessages(prev => [...prev, {
-      role: 'user',
-      content: `Show ${trade_type} trade data for HS Code ${hs_code} (${year})`
-    }])
+    setTradeLoading(true); setTradeData(null)
+    setMessages(prev => [...prev, { role: 'user', content: `Show ${trade_type} data for HS ${hs_code} (${year})` }])
     try {
-      const res = await fetch(`${API_URL}/tradedata`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hs_code, year, trade_type }),
-      })
+      const res = await fetch(`${API_URL}/tradedata`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ hs_code, year, trade_type }) })
       const result = await res.json()
-      if (result.data && result.data.length > 0) {
+      if (result.intel) setTradeIntel(result.intel)
+      if (result.data?.length > 0) {
         setTradeData(result.data)
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: `Found ${result.data.length} ${trade_type} commodit${result.data.length === 1 ? 'y' : 'ies'} for HS ${hs_code} (${year}). Toggle USD/INR below the table.`
-        }])
+        setMessages(prev => [...prev, { role: 'assistant', content: `Found ${result.data.length} commodit${result.data.length === 1 ? 'y' : 'ies'} for HS ${hs_code}. Toggle USD/INR below.` }])
       } else {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: `No trade data found for HS Code ${hs_code} in ${year}. Try a broader code (2-digit) or different year.`
-        }])
+        setMessages(prev => [...prev, { role: 'assistant', content: `No data found for HS ${hs_code} in ${year}. Try a 2-digit code or different year.` }])
       }
-    } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Could not fetch trade data. DGFT server may be temporarily unavailable.'
-      }])
-    } finally {
-      setTradeLoading(false)
-    }
+    } catch { setMessages(prev => [...prev, { role: 'assistant', content: 'DGFT server unavailable. Try again shortly.' }]) }
+    finally { setTradeLoading(false) }
   }
 
   const checkBuyerLeads = useCallback(async (userText, aiText) => {
-    const buyerMatch = aiText.match(BUYER_PATTERN)
-    if (buyerMatch) { await fetchBuyerLeads(buyerMatch[1].trim()); return }
+    const m = aiText.match(BUYER_PATTERN)
+    if (m) { await fetchBuyerLeads(m[1].trim()); return }
     const lt = userText.toLowerCase()
     if (lt.includes('buyer') && (lt.includes(' in ') || lt.includes(' from '))) {
-      const countries = ['UAE','USA','UK','Germany','Saudi Arabia','China','Japan','Singapore',
-        'Australia','Canada','Netherlands','France','Italy','Spain','Belgium','South Korea',
-        'Malaysia','Thailand','Vietnam','Indonesia','Bangladesh','Sri Lanka','Nepal',
-        'South Africa','Nigeria','Kenya','Egypt','Turkey','Brazil','Mexico','Russia',
-        'Poland','Sweden','Norway','Denmark','Switzerland','Austria','New Zealand','Israel','Qatar','Kuwait']
-      for (const c of countries) {
-        if (lt.includes(c.toLowerCase())) { await fetchBuyerLeads(c); break }
-      }
+      const countries = ['UAE','USA','UK','Germany','Saudi Arabia','China','Japan','Singapore','Australia','Canada','Netherlands','France','Italy','Spain','Belgium','South Korea','Malaysia','Thailand','Vietnam','Indonesia','Bangladesh','Sri Lanka','Nepal','South Africa','Nigeria','Kenya','Egypt','Turkey','Brazil','Mexico','Russia','Poland','Sweden','Norway','Denmark','Switzerland','Austria','New Zealand','Israel','Qatar','Kuwait']
+      for (const c of countries) { if (lt.includes(c.toLowerCase())) { await fetchBuyerLeads(c); break } }
     }
-  }, [])
+  }, [userEmail])
 
   async function sendMessage(text) {
     if (!text.trim() || streaming) return
     const userText = text.trim()
     setMessages(prev => [...prev, { role: 'user', content: userText }])
-    setInput('')
-    setStreaming(true)
-    setStreamingText('')
-    setBuyerLeads(null)
-    setTradeData(null)
+    setInput(''); setStreaming(true); setStreamingText(''); setBuyerLeads(null); setTradeData(null); setTradeIntel(null)
     let fullText = ''
     try {
       const history = messages.slice(-6).map(m => ({ role: m.role, content: m.content }))
-      const res = await fetch(`${API_URL}/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userText, history }),
-      })
+      const res = await fetch(`${API_URL}/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: userText, history }) })
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
       let buffer = ''
@@ -362,83 +345,65 @@ function App() {
         const { done, value } = await reader.read()
         if (done) break
         buffer += decoder.decode(value, { stream: true })
-        const lines = buffer.split('\n')
-        buffer = lines.pop() || ''
+        const lines = buffer.split('\n'); buffer = lines.pop() || ''
         for (const line of lines) {
           if (!line.startsWith('data: ')) continue
           const payload = line.slice(6).trim()
           if (payload === '[DONE]') continue
-          try {
-            const parsed = JSON.parse(payload)
-            if (parsed.chunk) { fullText += parsed.chunk; setStreamingText(fullText) }
-          } catch { /* skip */ }
+          try { const p = JSON.parse(payload); if (p.chunk) { fullText += p.chunk; setStreamingText(fullText) } } catch {}
         }
       }
-      setMessages(prev => [...prev, { role: 'assistant', content: fullText }])
-      setStreamingText('')
+      setMessages(prev => [...prev, { role: 'assistant', content: fullText }]); setStreamingText('')
       await checkBuyerLeads(userText, fullText)
     } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant', content: fullText || 'Could not connect to server.'
-      }])
-      setStreamingText('')
+      setMessages(prev => [...prev, { role: 'assistant', content: fullText || 'Connection failed.' }]); setStreamingText('')
     } finally { setStreaming(false) }
   }
 
-  function handleKeyDown(e) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input) }
-  }
+  function handleKeyDown(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input) } }
+  function handleTopicClick(t) { t.special === 'trade' ? setShowTradeModal(true) : sendMessage(t.query) }
 
   const showWelcome = messages.length === 0 && !streaming
 
   return (
     <div className="app">
-      <header className="header">
-        <div className="header-left">
-          <div className="logo-mark">N</div>
-          <div className="header-text">
-            <h1>NiryatAI</h1>
-            <span className="tagline">India Export Intelligence</span>
-          </div>
+      {/* Header */}
+      <header className="hdr">
+        <div className="hdr-left">
+          <div className="mark">N</div>
+          <div><div className="hdr-title">NiryatAI</div><div className="hdr-sub">Export Intelligence</div></div>
         </div>
-        <div className="header-right">
-          {exchangeRate && <span className="rate-badge">$ = {exchangeRate.toFixed(1)}</span>}
-        </div>
+        {exchangeRate && <div className="fx">₹{exchangeRate.toFixed(1)}<span>/USD</span></div>}
       </header>
 
-      <div className="topics-bar">
+      {/* Topics */}
+      <nav className="nav">
         {TOPICS.map(t => (
-          <button key={t.label} className="topic-btn" onClick={() => sendMessage(t.query)}
-            disabled={streaming || tradeLoading}>
-            <span className="topic-icon">{t.icon}</span>{t.label}
+          <button key={t.label} className={`pill ${t.special ? 'pill-accent' : ''}`}
+            onClick={() => handleTopicClick(t)} disabled={streaming || tradeLoading}>
+            <span className="pill-icon">{t.icon}</span>{t.label}
           </button>
         ))}
-        <button className="topic-btn trade-data-btn" onClick={() => setShowTradeModal(true)}
-          disabled={streaming || tradeLoading}>
-          <span className="topic-icon">📈</span>Trade Data
-        </button>
-      </div>
+      </nav>
 
-      {showTradeModal && (
-        <TradeDataModal onClose={() => setShowTradeModal(false)} onSubmit={fetchTradeData} />
-      )}
+      {/* Modals */}
+      {showTradeModal && <TradeDataModal onClose={() => setShowTradeModal(false)} onSubmit={fetchTradeData} />}
+      {showUnlockModal && <UnlockModal onClose={() => setShowUnlockModal(false)} onSubmit={handleUnlock} />}
 
-      {showUnlockModal && (
-        <UnlockModal onClose={() => setShowUnlockModal(false)} onSubmit={handleUnlock} />
-      )}
-
-      <main className="chat-area">
+      {/* Chat */}
+      <main className="chat">
         {showWelcome && (
-          <div className="welcome">
-            <div className="welcome-glow" />
-            <div className="welcome-badge">Powered by Claude AI + DGFT Data</div>
-            <h2>Welcome to <span className="gradient-text">NiryatAI</span></h2>
-            <p>Your AI-powered export mentor. Ask anything about exporting from India.</p>
-            <div className="suggestions">
+          <div className="welcome animate-in">
+            <div className="w-glow" />
+            <div className="w-chip">Powered by Claude AI + 20K document chunks</div>
+            <h2 className="w-title">Your export journey<br/>starts here.</h2>
+            <p className="w-desc">Ask anything about IEC, Incoterms, documents, buyers, costing, government schemes.</p>
+            <div className="w-grid">
               {SUGGESTED.map(q => (
-                <button key={q.text} className="suggestion-btn" onClick={() => sendMessage(q.text)}>
-                  <span className="sug-icon">{q.icon}</span>
-                  <span>{q.text}</span>
+                <button key={q.text} className="w-card" onClick={() => sendMessage(q.text)}>
+                  <span className="w-card-icon">{q.icon}</span>
+                  <span className="w-card-text">{q.text}</span>
+                  <span className="w-card-arrow">→</span>
                 </button>
               ))}
             </div>
@@ -446,65 +411,59 @@ function App() {
         )}
 
         {messages.map((msg, i) => (
-          <div key={i} className={`message ${msg.role}`}>
-            {msg.role === 'assistant' && <div className="avatar ai-avatar">N</div>}
-            <div className="bubble">
-              {msg.role === 'assistant' ? (
-                <div dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
-              ) : msg.content}
+          <div key={i} className={`msg ${msg.role} animate-in`}>
+            {msg.role === 'assistant' && <div className="av av-ai">N</div>}
+            <div className="bbl">
+              {msg.role === 'assistant'
+                ? <div dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
+                : msg.content}
             </div>
-            {msg.role === 'user' && <div className="avatar user-avatar">U</div>}
           </div>
         ))}
 
         {streaming && (
-          <div className="message assistant">
-            <div className="avatar ai-avatar">N</div>
-            <div className="bubble">
-              {streamingText ? (
-                <><div dangerouslySetInnerHTML={{ __html: formatMessage(streamingText) }} /><span className="cursor-blink" /></>
-              ) : (
-                <span className="cursor-blink" />
-              )}
+          <div className="msg assistant animate-in">
+            <div className="av av-ai">N</div>
+            <div className="bbl">
+              {streamingText
+                ? <><div dangerouslySetInnerHTML={{ __html: formatMessage(streamingText) }} /><span className="caret" /></>
+                : <span className="caret" />}
             </div>
           </div>
         )}
 
         {tradeLoading && (
-          <div className="message assistant">
-            <div className="avatar ai-avatar">N</div>
-            <div className="bubble">
-              Fetching live data from DGFT TradeStat<span className="loading-ellipsis" />
-            </div>
+          <div className="msg assistant animate-in">
+            <div className="av av-ai">N</div>
+            <div className="bbl">Fetching from DGFT<span className="dots" /></div>
           </div>
         )}
 
-        {tradeData && (
-          <>
-            <div className="currency-toggle">
-              <button className={currency === 'USD' ? 'active' : ''} onClick={() => setCurrency('USD')}>USD ($M)</button>
-              <button className={currency === 'INR' ? 'active' : ''} onClick={() => setCurrency('INR')}>INR (Cr)</button>
-            </div>
-            <TradeDataTable data={tradeData} exchangeRate={exchangeRate} currency={currency} />
-          </>
+        {(tradeIntel || tradeData) && (
+          <div className="animate-in">
+            <MarketIntelCard intel={tradeIntel} />
+            {tradeData && <>
+              <div className="cur-toggle">
+                <button className={currency === 'USD' ? 'on' : ''} onClick={() => setCurrency('USD')}>USD</button>
+                <button className={currency === 'INR' ? 'on' : ''} onClick={() => setCurrency('INR')}>INR</button>
+              </div>
+              <TradeDataTable data={tradeData} exchangeRate={exchangeRate} currency={currency} />
+            </>}
+          </div>
         )}
 
-        {buyerLeads && buyerLeads.leads && buyerLeads.leads.length > 0 && (
-          <div className="buyer-leads-section">
-            <div className="buyer-leads-header">
-              <h3>🌍 Buyer Leads ({buyerLeads.leads.length} found)</h3>
-              {(buyerLeads.premium || buyerLeads.registered) && (
-                <span className="unlocked-badge">✅ Unlocked</span>
-              )}
+        {buyerLeads?.leads?.length > 0 && (
+          <div className="leads-section animate-in">
+            <div className="leads-bar">
+              <span className="leads-title">Buyer Leads · {buyerLeads.leads.length} found</span>
+              {(buyerLeads.premium || buyerLeads.registered) && <span className="unlocked-pill">✓ Unlocked</span>}
             </div>
-            <div className="buyer-grid">
-              {buyerLeads.leads.map((lead, i) => (
-                <BuyerCard key={i} lead={lead} locked={!buyerLeads.premium && !buyerLeads.registered} />
-              ))}
+            <div className="leads-grid">
+              {buyerLeads.leads.map((l, i) => <BuyerCard key={i} lead={l} locked={!buyerLeads.premium && !buyerLeads.registered} />)}
             </div>
             {!buyerLeads.premium && !buyerLeads.registered && (
-              <button className="premium-cta" onClick={() => setShowUnlockModal(true)}>
-                🔓 Enter your email to unlock all buyer contacts — Free
+              <button className="unlock-btn" onClick={() => setShowUnlockModal(true)}>
+                Unlock all contacts — free
               </button>
             )}
           </div>
@@ -513,17 +472,13 @@ function App() {
         <div ref={chatEndRef} />
       </main>
 
-      <footer className="input-area">
-        <div className="input-wrapper">
-          <textarea className="chat-input" value={input} onChange={e => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Ask about IEC, Incoterms, documents, buyers, costing..."
-            rows={1} disabled={streaming} />
-          <button className="send-btn" onClick={() => sendMessage(input)}
-            disabled={!input.trim() || streaming}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M22 2L11 13" /><path d="M22 2L15 22L11 13L2 9L22 2Z" />
-            </svg>
+      {/* Input */}
+      <footer className="footer">
+        <div className="input-row">
+          <textarea className="inp" value={input} onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown} placeholder="Ask about exports..." rows={1} disabled={streaming} />
+          <button className="send" onClick={() => sendMessage(input)} disabled={!input.trim() || streaming}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
           </button>
         </div>
       </footer>
