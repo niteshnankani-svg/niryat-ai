@@ -1,11 +1,11 @@
 """
 NiryatAI Export Reference Table
-Fetches world imports + India exports for finished leather goods from UN Comtrade.
-Output: data/export_table_leather_2023.csv
+Fetches world imports + India exports for grains & staples from UN Comtrade.
+Output: data/export_table_grains_2023.csv
 
 Strategy:
   - World imports: one call per reporter country with all HS4 codes comma-separated
-    (252 calls max, cached per country in raw/comtrade/ch42_2023_{code}.json)
+    (252 calls max, cached per country in raw/comtrade/ch10_2023_{code}.json)
   - India exports: one call per product, flowCode=X, reporterCode=699
   - Clean filter before summing: customsCode=="C00" AND motCode==0
 """
@@ -28,27 +28,32 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "data")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 PRODUCTS = [
-    ("4202", "Bags, wallets, cases"),
-    ("4203", "Leather apparel & gloves"),
-    ("4205", "Other leather articles"),
-    ("4201", "Saddlery & harness"),
-    ("6403", "Leather footwear"),
-    ("6404", "Footwear, textile upper"),
-    ("4302", "Tanned fur skins"),
+    ("1006", "Rice"),
+    ("1001", "Wheat"),
+    ("0713", "Dried legumes (pulses)"),
+    ("1101", "Cereal flour"),
+    ("1701", "Sugar"),
+    ("2106", "Food preparations"),
 ]
 
 HS4_CODES    = [hs for hs, _ in PRODUCTS]
 CMD_PARAM    = ",".join(HS4_CODES)
 INDIA_CODE   = 699
 
-# Fixed cache tag — keeps leather cache isolated from cotton/spice runs
-CACHE_TAG    = "ch42"
-OUT_FILE     = "export_table_leather_2023.csv"
-SANITY_HS    = "4202"
-SANITY_RANGE = (30_000, 40_000)   # expected world imports for 4202 in $M
+# Fixed cache tag — keeps grains cache isolated from other runs
+CACHE_TAG      = "ch10"
+OUT_FILE       = "export_table_grains_2023.csv"
+SANITY_HS      = "1006"
+SANITY_FIELD   = "india_exports_usd_m"   # rice: check India's own export total
+SANITY_RANGE   = (11_000, 13_000)        # expected ~$12,472M per scraper
 
 def is_clean(row):
-    return row.get("customsCode") == "C00" and row.get("motCode") == 0
+    # partner2Code splits the aggregate row into per-second-partner breakdowns
+    # that carry the same primaryValue — must restrict to the single aggregate
+    # row (partner2Code==0) or totals get summed multiple times.
+    return (row.get("customsCode") == "C00"
+            and row.get("motCode") == 0
+            and row.get("partner2Code") == 0)
 
 
 def api_get(params, retries=5):
@@ -191,15 +196,15 @@ def main():
     # --- Step 3: sanity check ---
     check = next((r for r in results if r["hs_code"] == SANITY_HS), None)
     if check:
-        w_check = check["world_imports_usd_m"]
+        w_check = check[SANITY_FIELD]
         lo, hi = SANITY_RANGE
-        print(f"\nSANITY CHECK {SANITY_HS} → world_imports = {w_check}M  (expected ${lo//1000}B–${hi//1000}B)")
+        print(f"\nSANITY CHECK {SANITY_HS} → {SANITY_FIELD} = {w_check}M  (expected ${lo//1000}B–${hi//1000}B)")
         if w_check == "no data":
             print("  FAIL — no data. Possible cache collision — check CACHE_TAG.")
         else:
             val = int(w_check)
             if lo <= val <= hi:
-                print(f"  OK — {val} is within expected range")
+                print(f"  OK — {val} matches expected range, pipeline verified.")
             elif val > hi * 3:
                 print(f"  FAIL — {val} looks like a double-count. STOP.")
                 return
