@@ -1,0 +1,78 @@
+import { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import SearchBar from '../shared/SearchBar'
+import { useAuth } from '../../context/AuthContext'
+import { useCredits } from '../../context/CreditsContext'
+
+export default function Header({ onMenuClick }) {
+  const [query, setQuery] = useState('')
+  const navigate = useNavigate()
+  const { user, setShowLoginModal, logout } = useAuth()
+  const { balance } = useCredits()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  function handleSearch(value) {
+    if (!value.trim()) return
+    navigate(`/trade?q=${encodeURIComponent(value.trim())}`)
+  }
+
+  return (
+    <header className="h-16 shrink-0 sticky top-0 z-20 bg-[#0F1117]/90 backdrop-blur border-b border-white/[.06] flex items-center gap-3 px-4 md:px-6">
+      <button
+        onClick={onMenuClick}
+        className="lg:hidden w-9 h-9 shrink-0 flex items-center justify-center rounded-[10px] text-[#94A3B8] hover:bg-white/[.06]"
+        aria-label="Open menu"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+
+      <SearchBar
+        value={query}
+        onChange={setQuery}
+        onSubmit={handleSearch}
+        placeholder="Search products or HS codes..."
+        className="max-w-md flex-1"
+      />
+
+      <div className="flex-1" />
+
+      <Link
+        to="/credits"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[16px] bg-[#F59E0B]/10 border border-[#F59E0B]/25 text-[#F59E0B] text-sm font-medium hover:bg-[#F59E0B]/15 transition-colors"
+      >
+        <span>💰</span>
+        <span className="font-mono">{balance ?? '—'}</span>
+      </Link>
+
+      {user ? (
+        <div className="relative">
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            className="w-9 h-9 rounded-full bg-[#F59E0B]/20 text-[#F59E0B] font-semibold flex items-center justify-center text-sm"
+          >
+            {user.name?.[0]?.toUpperCase() || user.email[0].toUpperCase()}
+          </button>
+          {menuOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-[#181B24] border border-white/[.08] rounded-[10px] shadow-xl py-1 text-sm">
+              <div className="px-3 py-2 text-[#94A3B8] border-b border-white/[.06] truncate">{user.email}</div>
+              <button
+                onClick={() => { logout(); setMenuOpen(false) }}
+                className="w-full text-left px-3 py-2 text-[#EF4444] hover:bg-white/[.04]"
+              >
+                Sign out
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <button
+          onClick={() => setShowLoginModal(true)}
+          className="flex items-center gap-2 px-2.5 md:px-3.5 py-2 rounded-[10px] bg-white/[.05] border border-white/[.08] text-sm text-[#F1F5F9] hover:bg-white/[.08] transition-colors"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          <span className="hidden sm:inline">Sign in with Google</span>
+        </button>
+      )}
+    </header>
+  )
+}

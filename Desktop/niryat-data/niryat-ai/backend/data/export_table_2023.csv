@@ -1,11 +1,11 @@
 hs_code,product,world_imports_usd_m,india_exports_usd_m,india_share_pct,signal
-5201,Raw cotton,15511,1511,10,Moderate presence
-5205,Cotton yarn,10189,7001,69,Saturated — India already dominates
-5208,"Cotton fabric, light (<=200 g/m2)",6734,2474,37,Strong lane — India sells well here
-5209,"Cotton fabric, heavy (>200 g/m2)",5038,791,16,Strong lane — India sells well here
-5210,"Cotton-blend fabric, light",1177,141,12,Moderate presence
-5211,"Cotton-blend fabric, heavy",2302,321,14,Moderate presence
-5212,Other cotton fabric,442,56,13,Moderate presence
-6109,"T-shirts, knit",58750,4184,7,Hard to enter — India barely present
-6203,Men's woven garments,57664,2013,3,Hard to enter — India barely present
-6204,Women's woven garments,81409,5754,7,Hard to enter — India barely present
+5201,Raw cotton,12824,756,6,Hard to enter — India barely present
+5205,Cotton yarn,8542,3500,41,Strong lane — India sells well here
+5208,"Cotton fabric, light (<=200 g/m2)",5373,1237,23,Strong lane — India sells well here
+5209,"Cotton fabric, heavy (>200 g/m2)",4143,395,10,Moderate presence
+5210,"Cotton-blend fabric, light",955,70,7,Hard to enter — India barely present
+5211,"Cotton-blend fabric, heavy",1883,161,9,Hard to enter — India barely present
+5212,Other cotton fabric,331,28,8,Hard to enter — India barely present
+6109,"T-shirts, knit",43313,2092,5,Hard to enter — India barely present
+6203,Men's woven garments,42249,1007,2,Hard to enter — India barely present
+6204,Women's woven garments,59885,2877,5,Hard to enter — India barely present
