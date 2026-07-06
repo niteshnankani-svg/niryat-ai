@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { motion } from 'motion/react'
 import { useCredits } from '../../context/CreditsContext'
+import Icon from '../../lib/icons'
 
 /**
  * Mock Razorpay checkout — no VITE_RAZORPAY_KEY_ID configured yet.
@@ -24,8 +26,21 @@ export default function RazorpayModal({ tier, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="w-full max-w-sm bg-[#181B24] border border-white/[.08] rounded-[14px] p-6 animate-in" onClick={(e) => e.stopPropagation()}>
+    <motion.div
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      role="dialog"
+      aria-modal="true"
+    >
+      <motion.div
+        className="w-full max-w-sm bg-[#181B24] border border-white/[.08] rounded-[14px] p-6 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+      >
         <div className="flex items-center gap-2 mb-4">
           <div className="w-8 h-8 rounded-lg bg-[#3395FF]/15 flex items-center justify-center text-[#3395FF] font-bold text-sm">R</div>
           <h3 className="font-semibold text-[#F1F5F9]">Razorpay Checkout</h3>
@@ -40,7 +55,9 @@ export default function RazorpayModal({ tier, onClose }) {
         </div>
 
         {status === 'success' ? (
-          <div className="text-center py-2 text-[#10B981] text-sm font-medium">✓ Payment successful — credits added!</div>
+          <div className="flex items-center justify-center gap-1.5 py-2 text-[#10B981] text-sm font-medium" role="status" aria-live="polite">
+            <Icon name="check" className="w-4 h-4" strokeWidth={2.5} /> Payment successful — credits added!
+          </div>
         ) : status === 'error' ? (
           <div className="text-center py-2 text-[#EF4444] text-sm">Payment failed. Try again.</div>
         ) : (
@@ -53,7 +70,7 @@ export default function RazorpayModal({ tier, onClose }) {
           </button>
         )}
         <p className="text-[11px] text-[#64748B] text-center mt-3">Demo checkout — no real payment is charged.</p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }

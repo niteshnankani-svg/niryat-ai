@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import KPICard from '../components/shared/KPICard'
 import Badge, { signalVariant } from '../components/shared/Badge'
+import Icon from '../lib/icons'
 import { getIntel, fetchTradeData } from '../api/trade'
 
 export default function ProductDetail() {
@@ -30,14 +31,22 @@ export default function ProductDetail() {
 
   return (
     <div className="max-w-3xl">
-      <button onClick={() => navigate('/trade')} className="text-sm text-[#94A3B8] hover:text-[#F1F5F9] mb-4 flex items-center gap-1.5">
-        <span>←</span> Back to Trade Data
+      <button onClick={() => navigate('/trade')} className="group text-sm text-[#94A3B8] hover:text-[#F1F5F9] mb-4 inline-flex items-center gap-1.5 transition-colors">
+        <Icon name="arrow" className="w-4 h-4 -rotate-[135deg] group-hover:-translate-x-0.5 transition-transform" /> Back to Trade Data
       </button>
 
       {loading ? (
-        <p className="text-sm text-[#64748B]">Loading...</p>
+        <div className="flex flex-col gap-4">
+          <div className="skeleton h-8 w-2/3" />
+          <div className="grid grid-cols-3 gap-4">
+            {Array.from({ length: 3 }).map((_, i) => <div key={i} className="skeleton h-28" />)}
+          </div>
+        </div>
       ) : error ? (
-        <p className="text-sm text-[#EF4444]">{error}</p>
+        <div className="card flex flex-col items-center gap-2 py-12 text-center">
+          <Icon name="search" className="w-7 h-7 text-[#64748B]" />
+          <p className="text-sm text-[#94A3B8]">{error}</p>
+        </div>
       ) : intel ? (
         <>
           <div className="flex items-center gap-3 mb-1">
@@ -47,13 +56,13 @@ export default function ProductDetail() {
           <h1 className="text-2xl font-bold text-[#F1F5F9] mb-6">{intel.commodity || live?.Commodity}</h1>
 
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <KPICard icon="📤" label="Export FY24" value={intel.dgft_export_2024 != null ? `$${intel.dgft_export_2024.toFixed(1)}M` : '—'} />
-            <KPICard icon="📥" label="Export FY23" value={intel.dgft_export_2023 != null ? `$${intel.dgft_export_2023.toFixed(1)}M` : '—'} />
-            <KPICard icon="📅" label="Monthly Avg" value={intel.dgft_monthly_avg != null ? `$${intel.dgft_monthly_avg.toFixed(1)}M` : '—'} />
+            <KPICard icon="ship" tint="amber" label="Export FY24" value={intel.dgft_export_2024 != null ? `$${intel.dgft_export_2024.toFixed(1)}M` : '—'} />
+            <KPICard icon="download" tint="blue" label="Export FY23" value={intel.dgft_export_2023 != null ? `$${intel.dgft_export_2023.toFixed(1)}M` : '—'} />
+            <KPICard icon="calendar" tint="purple" label="Monthly Avg" value={intel.dgft_monthly_avg != null ? `$${intel.dgft_monthly_avg.toFixed(1)}M` : '—'} />
           </div>
 
           {intel.world_imports_usd_m != null && (
-            <div className="bg-[#181B24] border border-white/[.06] rounded-[14px] p-5 mb-6 grid grid-cols-3 gap-4">
+            <div className="card p-5 mb-6 grid grid-cols-3 gap-4">
               <div>
                 <div className="text-xs text-[#64748B] mb-1">World Imports</div>
                 <div className="font-mono text-lg text-[#F1F5F9]">${intel.world_imports_usd_m.toLocaleString()}M</div>
@@ -70,13 +79,13 @@ export default function ProductDetail() {
           )}
 
           <div className="grid grid-cols-2 gap-4">
-            <Link to={`/buyers?product=${encodeURIComponent(intel.commodity || '')}`} className="bg-[#181B24] border border-white/[.06] rounded-[14px] p-4 hover:border-[#F59E0B]/30 transition-colors">
-              <span className="text-xl block mb-1">🤝</span>
-              <span className="font-semibold text-sm text-[#F1F5F9]">Find buyers</span>
+            <Link to={`/buyers?product=${encodeURIComponent(intel.commodity || '')}`} className="card card-hover p-4 flex flex-col gap-2 group">
+              <span className="w-9 h-9 rounded-[10px] bg-[#10B981]/12 text-[#10B981] flex items-center justify-center"><Icon name="handshake" className="w-[18px] h-[18px]" /></span>
+              <span className="font-semibold text-sm text-[#F1F5F9] flex items-center gap-1">Find buyers <Icon name="arrow" className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#F59E0B] transition-colors" /></span>
             </Link>
-            <Link to="/schemes" className="bg-[#181B24] border border-white/[.06] rounded-[14px] p-4 hover:border-[#F59E0B]/30 transition-colors">
-              <span className="text-xl block mb-1">🏛️</span>
-              <span className="font-semibold text-sm text-[#F1F5F9]">Govt schemes</span>
+            <Link to="/schemes" className="card card-hover p-4 flex flex-col gap-2 group">
+              <span className="w-9 h-9 rounded-[10px] bg-[#A78BFA]/12 text-[#A78BFA] flex items-center justify-center"><Icon name="schemes" className="w-[18px] h-[18px]" /></span>
+              <span className="font-semibold text-sm text-[#F1F5F9] flex items-center gap-1">Govt schemes <Icon name="arrow" className="w-3.5 h-3.5 text-[#64748B] group-hover:text-[#F59E0B] transition-colors" /></span>
             </Link>
           </div>
         </>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import SearchBar from '../shared/SearchBar'
+import Icon from '../../lib/icons'
 import { useAuth } from '../../context/AuthContext'
 import { useCredits } from '../../context/CreditsContext'
 
@@ -20,10 +21,10 @@ export default function Header({ onMenuClick }) {
     <header className="h-16 shrink-0 sticky top-0 z-20 bg-[#0F1117]/90 backdrop-blur border-b border-white/[.06] flex items-center gap-3 px-4 md:px-6">
       <button
         onClick={onMenuClick}
-        className="lg:hidden w-9 h-9 shrink-0 flex items-center justify-center rounded-[10px] text-[#94A3B8] hover:bg-white/[.06]"
+        className="lg:hidden w-9 h-9 shrink-0 flex items-center justify-center rounded-[10px] text-[#94A3B8] hover:bg-white/[.06] transition-colors"
         aria-label="Open menu"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <Icon name="menu" className="w-5 h-5" strokeWidth={2} />
       </button>
 
       <SearchBar
@@ -40,7 +41,7 @@ export default function Header({ onMenuClick }) {
         to="/credits"
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-[16px] bg-[#F59E0B]/10 border border-[#F59E0B]/25 text-[#F59E0B] text-sm font-medium hover:bg-[#F59E0B]/15 transition-colors"
       >
-        <span>💰</span>
+        <Icon name="credits" className="w-4 h-4" />
         <span className="font-mono">{balance ?? '—'}</span>
       </Link>
 
@@ -57,8 +58,9 @@ export default function Header({ onMenuClick }) {
               <div className="px-3 py-2 text-[#94A3B8] border-b border-white/[.06] truncate">{user.email}</div>
               <button
                 onClick={() => { logout(); setMenuOpen(false) }}
-                className="w-full text-left px-3 py-2 text-[#EF4444] hover:bg-white/[.04]"
+                className="w-full flex items-center gap-2 text-left px-3 py-2 text-[#EF4444] hover:bg-white/[.04] transition-colors"
               >
+                <Icon name="logout" className="w-4 h-4" />
                 Sign out
               </button>
             </div>

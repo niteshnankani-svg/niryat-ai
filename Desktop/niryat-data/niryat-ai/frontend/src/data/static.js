@@ -45,32 +45,32 @@ export const GETTING_STARTED_STEPS = [
 
 export const DOCUMENTS = [
   {
-    icon: '🧾', name: 'Commercial Invoice', description: 'Itemized bill of sale — value, quantity, buyer/seller details.', requirement: 'Mandatory',
+    icon: 'receipt', name: 'Commercial Invoice', description: 'Itemized bill of sale — value, quantity, buyer/seller details.', requirement: 'Mandatory',
     detail: 'The core sales document — lists product description, HS code, quantity, unit price, total value, Incoterm, and buyer/seller details. Customs uses this to assess duty and value your shipment.',
     obtainFrom: 'You create this yourself, on your company letterhead — no government portal involved.',
   },
   {
-    icon: '📦', name: 'Packing List', description: 'Contents, weight, and dimensions of each package.', requirement: 'Mandatory',
+    icon: 'boxes', name: 'Packing List', description: 'Contents, weight, and dimensions of each package.', requirement: 'Mandatory',
     detail: 'Box-by-box breakdown of what\'s inside each package — net/gross weight, dimensions, and carton count. Customs and the carrier both cross-check this against the invoice.',
     obtainFrom: 'You create this yourself alongside the commercial invoice.',
   },
   {
-    icon: '🌍', name: 'Certificate of Origin', description: 'Confirms goods were manufactured in India — needed for tariff preference.', requirement: 'If buyer asks',
+    icon: 'buyers', name: 'Certificate of Origin', description: 'Confirms goods were manufactured in India — needed for tariff preference.', requirement: 'If buyer asks',
     detail: 'Proves the goods were made in India, which lets the buyer claim a lower import duty under trade agreements (e.g. India-ASEAN, GSP schemes). Not needed unless the buyer\'s country offers such preference.',
     obtainFrom: 'Apply via the Common Digital Platform (coo.dgft.gov.in) or your local Chamber of Commerce.',
   },
   {
-    icon: '🚢', name: 'Bill of Lading / Airway Bill', description: 'Proof of shipment issued by the carrier.', requirement: 'Mandatory',
+    icon: 'ship', name: 'Bill of Lading / Airway Bill', description: 'Proof of shipment issued by the carrier.', requirement: 'Mandatory',
     detail: 'Issued by the shipping line (Bill of Lading) or airline (Airway Bill) once cargo is loaded. It\'s your proof of shipment and, for sea freight, also acts as a title document the buyer needs to collect the goods.',
     obtainFrom: 'Issued automatically by your freight forwarder / shipping line after loading.',
   },
   {
-    icon: '📋', name: 'Shipping Bill', description: 'Filed on ICEGATE — customs clearance for export.', requirement: 'Mandatory',
+    icon: 'clipboard', name: 'Shipping Bill', description: 'Filed on ICEGATE — customs clearance for export.', requirement: 'Mandatory',
     detail: 'The customs clearance document for export — filed electronically before goods leave India. Required to claim RoDTEP/Drawback benefits later, so file it accurately.',
     obtainFrom: 'File electronically at icegate.gov.in, linked to your IEC and AD Code.',
   },
   {
-    icon: '✅', name: 'Quality Certificate', description: 'Inspection certificate for regulated goods (food, pharma, etc).', requirement: 'If buyer asks',
+    icon: 'badgeCheck', name: 'Quality Certificate', description: 'Inspection certificate for regulated goods (food, pharma, etc).', requirement: 'If buyer asks',
     detail: 'Third-party or government inspection confirming the goods meet a stated quality/safety standard. Common for food (FSSAI), pharma, and agricultural exports — some countries mandate it at customs on arrival.',
     obtainFrom: 'APEDA-approved labs for agri/food; sector-specific inspection agencies otherwise.',
   },
@@ -97,31 +97,31 @@ export const COSTING_ROWS = [
 
 export const GOVT_SCHEMES = [
   {
-    icon: '💵', name: 'RoDTEP', benefit: '0.5% – 4.3% of FOB value',
+    icon: 'banknote', name: 'RoDTEP', benefit: '0.5% – 4.3% of FOB value',
     description: 'Remission of Duties and Taxes on Exported Products — refunds embedded taxes not covered by other schemes.',
     eligibility: 'All exporters of manufactured/merchandise goods, except a short exclusion list (SEZ/EOU restrictions, gold, some steel items). Rate depends on your product\'s HS code.',
     howToApply: ['File your Shipping Bill on ICEGATE with the RoDTEP declaration ticked', 'Rate is auto-computed by the system per HS code', 'Credit is issued as a transferable duty-credit scrip (e-scrip) in your ICEGATE ledger', 'Use the scrip to pay future customs duty, or sell/transfer it'],
   },
   {
-    icon: '↩️', name: 'Duty Drawback', benefit: 'Up to 1.5% of FOB value',
+    icon: 'undo', name: 'Duty Drawback', benefit: 'Up to 1.5% of FOB value',
     description: 'Refund of customs duty paid on imported inputs used in exported goods.',
     eligibility: 'Exporters who used imported (duty-paid) raw materials or components in the exported product.',
     howToApply: ['Declare the Drawback serial number on your Shipping Bill', 'Customs verifies input-output norms for your product', 'Refund is credited directly to your registered bank account', 'Typically processed within a few weeks of shipment'],
   },
   {
-    icon: '📉', name: 'Interest Equalisation Scheme', benefit: '2% – 3% rate subvention',
+    icon: 'trendingDown', name: 'Interest Equalisation Scheme', benefit: '2% – 3% rate subvention',
     description: 'Reduces interest cost on pre/post-shipment export credit for MSMEs and select sectors.',
     eligibility: 'MSME manufacturer-exporters and merchant exporters in ~410 identified tariff lines, on rupee export credit from a scheduled bank.',
     howToApply: ['Apply through your existing working-capital bank, not a government portal', 'Bank applies the interest subvention directly to your export credit account', 'Renew eligibility each financial year per RBI/DGFT circulars'],
   },
   {
-    icon: '🛡️', name: 'ECGC Insurance', benefit: 'Covers up to 90% of loss',
+    icon: 'shield', name: 'ECGC Insurance', benefit: 'Covers up to 90% of loss',
     description: 'Export Credit Guarantee Corporation cover against buyer default or political risk.',
     eligibility: 'Any exporter shipping on credit terms (DP/DA/Open Account) who wants cover against non-payment by the overseas buyer.',
     howToApply: ['Register and apply for a policy at ecgc.in', 'Declare your shipments/turnover under the policy each month', 'Pay the premium (varies by buyer country risk and credit period)', 'File a claim with shipment/invoice proof if the buyer defaults'],
   },
   {
-    icon: '🎯', name: 'MAI / MDA Grants', benefit: 'Partial reimbursement of costs',
+    icon: 'target', name: 'MAI / MDA Grants', benefit: 'Partial reimbursement of costs',
     description: 'Market Access Initiative / Market Development Assistance — subsidizes trade fair and market research costs.',
     eligibility: 'Export Promotion Councils, trade bodies, and individual exporters (mainly MSMEs) participating in approved trade fairs or market studies abroad.',
     howToApply: ['Check the approved activity/fair list on commerce.gov.in', 'Apply through your Export Promotion Council before the event', 'Submit expense proof (travel, stall, marketing) after participation', 'Reimbursement is partial and capped per scheme guidelines'],

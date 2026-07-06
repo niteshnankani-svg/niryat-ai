@@ -4,10 +4,10 @@ import Badge, { signalVariant } from '../shared/Badge'
 export default function ComparisonTable({ rows }) {
   const navigate = useNavigate()
   return (
-    <div className="bg-[#181B24] border border-white/[.06] rounded-[14px] overflow-hidden">
-      <table className="w-full text-sm">
+    <div className="card overflow-x-auto">
+      <table className="w-full text-sm min-w-[680px]">
         <thead>
-          <tr className="border-b border-white/[.06] text-left text-[#64748B]">
+          <tr className="border-b border-white/[.06] text-left text-[#64748B] text-xs uppercase tracking-wide">
             <th className="px-4 py-3 font-medium">HS Code</th>
             <th className="px-4 py-3 font-medium">Product</th>
             <th className="px-4 py-3 font-medium text-right">World Imports</th>

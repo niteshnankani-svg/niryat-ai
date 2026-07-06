@@ -1,5 +1,9 @@
 import { useState } from 'react'
+import { motion } from 'motion/react'
 import { COSTING_ROWS } from '../data/static'
+import PageHeader from '../components/shared/PageHeader'
+import { Reveal } from '../components/motion/Motion'
+import Icon from '../lib/icons'
 
 const fmt = (n) => `₹${Math.round(n).toLocaleString('en-IN')}`
 
@@ -31,26 +35,30 @@ export default function Costing() {
 
   return (
     <div className="max-w-2xl">
-      <div className="flex items-start justify-between gap-4 mb-1">
-        <h1 className="text-2xl font-bold text-[#F1F5F9]">Costing Calculator</h1>
-        <button
-          onClick={() => setValues(DEFAULTS)}
-          className="text-xs text-[#94A3B8] hover:text-[#F59E0B] border border-white/10 hover:border-[#F59E0B]/30 rounded-[8px] px-3 py-1.5 shrink-0 transition-colors"
-        >
-          Reset to example
-        </button>
-      </div>
-      <p className="text-sm text-[#94A3B8] mb-6">Enter your own numbers — FOB and CIF recalculate as you type.</p>
+      <PageHeader
+        icon="costing"
+        title="Costing Calculator"
+        subtitle="Enter your own numbers — FOB and CIF recalculate as you type."
+        action={
+          <button
+            onClick={() => setValues(DEFAULTS)}
+            className="inline-flex items-center gap-1.5 text-xs text-[#94A3B8] hover:text-[#F59E0B] border border-white/10 hover:border-[#F59E0B]/30 rounded-[8px] px-3 py-1.5 transition-colors"
+          >
+            <Icon name="reset" className="w-3.5 h-3.5" /> Reset
+          </button>
+        }
+      />
 
-      <div className="bg-[#181B24] border border-white/[.06] rounded-[14px] overflow-hidden">
+      <Reveal delay={0.1} className="card overflow-hidden">
         {INPUT_ROWS.map((row) => (
-          <div key={row.label} className="flex items-center justify-between px-5 py-3 border-b border-white/[.05] last:border-b-0 gap-4">
+          <div key={row.label} className="flex items-center justify-between px-5 py-3 border-b border-white/[.05] gap-4 hover:bg-white/[.02] transition-colors">
             <span className="text-sm text-[#CBD5E1]">{row.label}</span>
             <div className="flex items-center gap-1 shrink-0">
               <span className="text-sm text-[#64748B] font-mono">₹</span>
               <input
                 type="number"
                 min="0"
+                inputMode="numeric"
                 value={values[row.label]}
                 onChange={(e) => setValue(row.label, e.target.value)}
                 className="w-28 bg-white/[.04] border border-white/10 focus:border-[#F59E0B]/50 rounded-[8px] px-2 py-1.5 text-sm font-mono text-[#F1F5F9] text-right outline-none transition-colors"
@@ -61,14 +69,22 @@ export default function Costing() {
 
         <div className="flex items-center justify-between px-5 py-3.5 bg-white/[.02] border-b border-white/[.05]">
           <span className="text-sm font-semibold text-[#F1F5F9]">FOB price</span>
-          <span className="font-mono text-sm font-semibold text-[#F1F5F9]">{fmt(fob)}</span>
+          <motion.span key={fob} initial={{ opacity: 0.4 }} animate={{ opacity: 1 }} className="font-mono text-sm font-semibold text-[#F1F5F9]">{fmt(fob)}</motion.span>
         </div>
 
-        <div className="flex items-center justify-between px-5 py-3.5 bg-[#F59E0B]/10">
-          <span className="text-sm font-semibold text-[#F1F5F9]">Final CIF price to buyer</span>
-          <span className="font-mono text-base font-bold text-[#F59E0B]">{fmt(cif)}</span>
+        <div className="flex items-center justify-between px-5 py-4 bg-[#F59E0B]/10">
+          <span className="text-sm font-semibold text-[#F1F5F9] flex items-center gap-2">
+            <Icon name="ship" className="w-4 h-4 text-[#F59E0B]" />
+            Final CIF price to buyer
+          </span>
+          <motion.span key={cif} initial={{ opacity: 0.4, y: -2 }} animate={{ opacity: 1, y: 0 }} className="font-mono text-base font-bold text-[#F59E0B]">{fmt(cif)}</motion.span>
         </div>
-      </div>
+      </Reveal>
+
+      <p className="text-xs text-[#64748B] mt-3 flex items-center gap-1.5">
+        <Icon name="sparkles" className="w-3.5 h-3.5 text-[#F59E0B]" />
+        FOB = ex-factory + inland + packing + docs. CIF adds ocean freight + marine insurance.
+      </p>
     </div>
   )
 }
