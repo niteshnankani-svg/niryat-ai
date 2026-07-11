@@ -3,7 +3,6 @@ import anthropic
 
 _MD_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
-    "..",
     "export_insurance_plain_english.md",
 )
 
