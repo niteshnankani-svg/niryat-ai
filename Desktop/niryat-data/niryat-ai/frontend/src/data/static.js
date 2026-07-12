@@ -77,11 +77,31 @@ export const DOCUMENTS = [
 ]
 
 export const PAYMENT_METHODS = [
-  { name: 'Advance Payment (T/T)', description: 'Buyer pays before goods ship.', risk: 'Safest', speed: 'Fast', cost: 'Low (wire fee only)' },
-  { name: 'Letter of Credit (LC)', description: "Bank guarantees payment on presenting compliant documents.", risk: 'Very safe', speed: 'Medium', cost: 'Medium (bank charges)' },
-  { name: 'Documents against Payment (DP)', description: 'Buyer pays when documents are released by their bank.', risk: 'Medium', speed: 'Medium', cost: 'Low' },
-  { name: 'Documents against Acceptance (DA)', description: 'Buyer accepts a bill of exchange, pays later.', risk: 'Risky', speed: 'Slow', cost: 'Low' },
-  { name: 'Open Account', description: 'Goods ship first, payment due on agreed terms later.', risk: 'Risky', speed: 'Fast', cost: 'Low' },
+  {
+    name: 'Advance Payment (T/T)', description: 'Buyer pays before goods ship.', risk: 'Safest', speed: 'Fast', cost: 'Low (wire fee only)',
+    whenToUse: 'New buyers with no trading history, small first orders, or high-risk destination countries.',
+    howItWorks: ['Buyer wires full (or partial) payment via SWIFT before you manufacture/ship', 'You confirm funds received in your bank account', 'Goods are shipped only after payment clears', 'No bank guarantee needed — the buyer is trusting you'],
+  },
+  {
+    name: 'Letter of Credit (LC)', description: 'Bank guarantees payment on presenting compliant documents.', risk: 'Very safe', speed: 'Medium', cost: 'Medium (bank charges)',
+    whenToUse: 'Medium-to-large orders, unfamiliar buyers, or when the buyer\'s bank is willing to issue one — the standard for higher-value first-time trade.',
+    howItWorks: ['Buyer\'s bank issues an LC in your favor, routed via your bank', 'You ship the goods and prepare exact documents matching the LC terms', 'Your bank verifies documents and forwards them to the buyer\'s bank', 'Payment is released once documents are found fully compliant'],
+  },
+  {
+    name: 'Documents against Payment (DP)', description: 'Buyer pays when documents are released by their bank.', risk: 'Medium', speed: 'Medium', cost: 'Low',
+    whenToUse: 'Established buyers with a decent trust level, where a full LC feels like overkill but you still want a bank in the loop.',
+    howItWorks: ['You ship goods and hand shipping documents to your bank', 'Your bank forwards documents to the buyer\'s bank (collection)', 'Buyer\'s bank releases documents only after the buyer pays', 'Buyer needs the documents to clear customs and collect the goods'],
+  },
+  {
+    name: 'Documents against Acceptance (DA)', description: 'Buyer accepts a bill of exchange, pays later.', risk: 'Risky', speed: 'Slow', cost: 'Low',
+    whenToUse: 'Long-term buyers you trust, or when the buyer needs short-term credit to move your goods — common in repeat relationships.',
+    howItWorks: ['You ship goods and route documents through banks, same as DP', 'Buyer\'s bank releases documents once buyer signs (accepts) a bill of exchange', 'Buyer gets the goods immediately but pays only at a later fixed date', 'You carry the credit risk until that date — no bank guarantee'],
+  },
+  {
+    name: 'Open Account', description: 'Goods ship first, payment due on agreed terms later.', risk: 'Risky', speed: 'Fast', cost: 'Low',
+    whenToUse: 'Long-standing buyers with a strong payment history, often paired with export credit insurance (ECGC) to cover the risk.',
+    howItWorks: ['You ship goods and send documents directly to the buyer — no bank involved', 'Buyer takes possession and clears customs immediately', 'Payment is due per agreed terms (e.g. net 30/60/90 days)', 'Entirely trust-based — consider ECGC cover for protection'],
+  },
 ]
 
 export const COSTING_ROWS = [

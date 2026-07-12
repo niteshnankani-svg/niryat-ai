@@ -1,13 +1,13 @@
 """
 NiryatAI Export Reference Table
-Fetches world imports + India exports for grains & staples from UN Comtrade.
-Output: data/export_table_grains_2023.csv
+Fetches world imports + India exports for oilseeds & vegetable oils from UN Comtrade.
+Output: data/export_table_oilseeds_2023.csv
 
 Strategy:
   - World imports: one call per reporter country with all HS4 codes comma-separated
-    (252 calls max, cached per country in raw/comtrade/ch10_2023_{code}.json)
+    (252 calls max, cached per country in raw/comtrade/ch1215_2023_{code}.json)
   - India exports: one call per product, flowCode=X, reporterCode=699
-  - Clean filter before summing: customsCode=="C00" AND motCode==0
+  - Clean filter before summing: customsCode=="C00" AND motCode==0 AND partner2Code==0
 """
 
 import os, json, time, glob, csv, requests
@@ -28,24 +28,26 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "data")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 PRODUCTS = [
-    ("1006", "Rice"),
-    ("1001", "Wheat"),
-    ("0713", "Dried legumes (pulses)"),
-    ("1101", "Cereal flour"),
-    ("1701", "Sugar"),
-    ("2106", "Food preparations"),
+    ("1201", "Soya beans"),
+    ("1202", "Groundnuts (peanuts)"),
+    ("1207", "Other oil seeds (sesame, castor, niger)"),
+    ("1208", "Oilseed meal & flour"),
+    ("1511", "Palm oil"),
+    ("1513", "Coconut & palm kernel oil"),
+    ("1515", "Other fixed vegetable oils (incl. castor oil)"),
+    ("1518", "Modified animal/vegetable fats & oils"),
 ]
 
 HS4_CODES    = [hs for hs, _ in PRODUCTS]
 CMD_PARAM    = ",".join(HS4_CODES)
 INDIA_CODE   = 699
 
-# Fixed cache tag — keeps grains cache isolated from other runs
-CACHE_TAG      = "ch10"
-OUT_FILE       = "export_table_grains_2023.csv"
-SANITY_HS      = "1006"
-SANITY_FIELD   = "india_exports_usd_m"   # rice: check India's own export total
-SANITY_RANGE   = (11_000, 13_000)        # expected ~$12,472M per scraper
+# Fixed cache tag — keeps oilseeds cache isolated from other runs
+CACHE_TAG      = "ch1215"
+OUT_FILE       = "export_table_oilseeds_2023.csv"
+SANITY_HS      = "1515"
+SANITY_FIELD   = "india_exports_usd_m"   # castor oil: India dominates world trade, expect ~$1-1.3B
+SANITY_RANGE   = (900, 1_400)
 
 def is_clean(row):
     # partner2Code splits the aggregate row into per-second-partner breakdowns
@@ -186,11 +188,25 @@ def main():
         i_str  = str(i_m)  if i_m  is not None else "no data"
         print(f"  {hs4}  {name:<40}  world={w_str:>7}M  india={i_str:>7}M")
 
+        share = round(i_m / w_m * 100) if (w_m and i_m is not None and w_m > 0) else None
+        if share is None:
+            signal = "No data"
+        elif share >= 60:
+            signal = "Saturated — India already dominates"
+        elif 15 <= share <= 45:
+            signal = "Strong lane — India sells well here"
+        elif share < 10:
+            signal = "Hard to enter — India barely present"
+        else:
+            signal = "Moderate presence"
+
         results.append({
             "hs_code":              hs4,
             "product":              name,
             "world_imports_usd_m":  w_str,
             "india_exports_usd_m":  i_str,
+            "india_share_pct":      share if share is not None else "no data",
+            "signal":               signal,
         })
 
     # --- Step 3: sanity check ---
@@ -215,7 +231,8 @@ def main():
     out_path = os.path.join(OUT_DIR, OUT_FILE)
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
-            f, fieldnames=["hs_code", "product", "world_imports_usd_m", "india_exports_usd_m"]
+            f, fieldnames=["hs_code", "product", "world_imports_usd_m", "india_exports_usd_m",
+                           "india_share_pct", "signal"]
         )
         writer.writeheader()
         writer.writerows(results)
