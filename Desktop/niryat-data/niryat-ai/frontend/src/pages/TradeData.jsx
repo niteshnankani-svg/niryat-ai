@@ -11,16 +11,37 @@ import { useProducts, useComtrade } from '../hooks/useProducts'
 
 const PAGE_SIZE = 30
 
+const SIGNAL_FILTERS = [
+  { id: 'all', label: 'All' },
+  { id: 'strong', label: 'Easy entry', match: (s) => s?.toLowerCase().includes('strong') },
+  { id: 'moderate', label: 'Moderate', match: (s) => s?.toLowerCase().includes('moderate') },
+  { id: 'saturated', label: 'Saturated', match: (s) => s?.toLowerCase().includes('saturated') },
+  { id: 'hard', label: 'Hard to enter', match: (s) => s?.toLowerCase().includes('hard') },
+]
+
+// Strong-lane ("easy entry") products surface first — these are the best growth
+// opportunities to show visitors: India already sells here, but isn't saturated.
+const SIGNAL_RANK = { strong: 0, moderate: 1, hard: 2, saturated: 3, '': 4 }
+function rankOf(signal) {
+  const s = (signal || '').toLowerCase()
+  if (s.includes('strong')) return SIGNAL_RANK.strong
+  if (s.includes('moderate')) return SIGNAL_RANK.moderate
+  if (s.includes('hard')) return SIGNAL_RANK.hard
+  if (s.includes('saturated')) return SIGNAL_RANK.saturated
+  return SIGNAL_RANK['']
+}
+
 export default function TradeData() {
   const [searchParams] = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('q') || '')
   const [view, setView] = useState('india') // 'india' | 'world'
+  const [signalFilter, setSignalFilter] = useState('all')
   const [visible, setVisible] = useState(PAGE_SIZE)
 
   const { products, loading: pLoading } = useProducts()
   const { comtrade, loading: cLoading } = useComtrade()
 
-  useEffect(() => { setVisible(PAGE_SIZE) }, [query, view])
+  useEffect(() => { setVisible(PAGE_SIZE) }, [query, view, signalFilter])
 
   const filteredProducts = useMemo(() => {
     if (!query.trim()) return products
@@ -29,10 +50,16 @@ export default function TradeData() {
   }, [products, query])
 
   const filteredComtrade = useMemo(() => {
-    if (!query.trim()) return comtrade
-    const q = query.toLowerCase()
-    return comtrade.filter((p) => p.commodity?.toLowerCase().includes(q) || p.hs_code?.includes(q))
-  }, [comtrade, query])
+    let rows = comtrade
+    if (query.trim()) {
+      const q = query.toLowerCase()
+      rows = rows.filter((p) => p.commodity?.toLowerCase().includes(q) || p.hs_code?.includes(q))
+    }
+    const active = SIGNAL_FILTERS.find((f) => f.id === signalFilter)
+    if (active?.match) rows = rows.filter((p) => active.match(p.signal))
+    // Easy-entry ("Strong lane") products first — the best growth opportunities to surface.
+    return [...rows].sort((a, b) => rankOf(a.signal) - rankOf(b.signal))
+  }, [comtrade, query, signalFilter])
 
   const totalWorld = filteredComtrade.reduce((s, p) => s + (p.world_imports_usd_m || 0), 0)
   const totalIndia = filteredComtrade.reduce((s, p) => s + (p.india_exports_usd_m || 0), 0)
@@ -74,11 +101,31 @@ export default function TradeData() {
       </Reveal>
 
       {view === 'world' && (
-        <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-          <Stagger.Item><KPICard icon="buyers" tint="blue" label="Total World Imports" value={`$${totalWorld.toLocaleString()}M`} /></Stagger.Item>
-          <Stagger.Item><KPICard icon="flag" tint="amber" label="India's Exports" value={`$${totalIndia.toLocaleString()}M`} /></Stagger.Item>
-          <Stagger.Item><KPICard icon="chart" tint="green" label="Avg India Share" value={`${avgShare.toFixed(1)}%`} /></Stagger.Item>
-        </Stagger>
+        <>
+          <Stagger className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+            <Stagger.Item><KPICard icon="buyers" tint="blue" label="Total World Imports" value={`$${totalWorld.toLocaleString()}M`} /></Stagger.Item>
+            <Stagger.Item><KPICard icon="flag" tint="amber" label="India's Exports" value={`$${totalIndia.toLocaleString()}M`} /></Stagger.Item>
+            <Stagger.Item><KPICard icon="chart" tint="green" label="Avg India Share" value={`${avgShare.toFixed(1)}%`} /></Stagger.Item>
+          </Stagger>
+
+          <Reveal delay={0.08} className="flex flex-wrap items-center gap-2 mb-5">
+            <span className="text-xs text-[#64748B] mr-1">Signal:</span>
+            {SIGNAL_FILTERS.map((f) => (
+              <button
+                key={f.id}
+                onClick={() => setSignalFilter(f.id)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[16px] border text-xs font-medium transition-colors ${
+                  signalFilter === f.id
+                    ? 'bg-[#F59E0B] text-white border-[#F59E0B]'
+                    : 'bg-white/[.03] text-[#94A3B8] border-white/10 hover:border-[#F59E0B]/30 hover:text-[#F1F5F9]'
+                }`}
+              >
+                {f.id === 'strong' && <Icon name="target" className="w-3.5 h-3.5" />}
+                {f.label}
+              </button>
+            ))}
+          </Reveal>
+        </>
       )}
 
       {loading ? (

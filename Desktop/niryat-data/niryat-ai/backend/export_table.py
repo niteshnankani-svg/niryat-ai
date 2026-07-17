@@ -1,11 +1,12 @@
 """
 NiryatAI Export Reference Table
-Fetches world imports + India exports for oilseeds & vegetable oils from UN Comtrade.
-Output: data/export_table_oilseeds_2023.csv
+Fetches world imports + India exports for "room to grow" export sectors — categories
+where India already has a proven foothold but isn't yet saturated — from UN Comtrade.
+Output: data/export_table_growth_2023.csv
 
 Strategy:
   - World imports: one call per reporter country with all HS4 codes comma-separated
-    (252 calls max, cached per country in raw/comtrade/ch1215_2023_{code}.json)
+    (252 calls max, cached per country in raw/comtrade/chgrowth_2023_{code}.json)
   - India exports: one call per product, flowCode=X, reporterCode=699
   - Clean filter before summing: customsCode=="C00" AND motCode==0 AND partner2Code==0
 """
@@ -28,26 +29,26 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "data")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 PRODUCTS = [
-    ("1201", "Soya beans"),
-    ("1202", "Groundnuts (peanuts)"),
-    ("1207", "Other oil seeds (sesame, castor, niger)"),
-    ("1208", "Oilseed meal & flour"),
-    ("1511", "Palm oil"),
-    ("1513", "Coconut & palm kernel oil"),
-    ("1515", "Other fixed vegetable oils (incl. castor oil)"),
-    ("1518", "Modified animal/vegetable fats & oils"),
+    ("0306", "Shrimp, prawns & other crustaceans"),
+    ("3004", "Pharmaceuticals (medicaments)"),
+    ("5701", "Hand-knotted carpets"),
+    ("7113", "Jewellery of precious metal"),
+    ("8708", "Motor vehicle parts & accessories"),
+    ("3926", "Other plastic articles"),
+    ("4011", "New pneumatic tyres"),
+    ("6802", "Worked monumental/building stone (granite)"),
 ]
 
 HS4_CODES    = [hs for hs, _ in PRODUCTS]
 CMD_PARAM    = ",".join(HS4_CODES)
 INDIA_CODE   = 699
 
-# Fixed cache tag — keeps oilseeds cache isolated from other runs
-CACHE_TAG      = "ch1215"
-OUT_FILE       = "export_table_oilseeds_2023.csv"
-SANITY_HS      = "1515"
-SANITY_FIELD   = "india_exports_usd_m"   # castor oil: India dominates world trade, expect ~$1-1.3B
-SANITY_RANGE   = (900, 1_400)
+# Fixed cache tag — keeps this cache isolated from other runs
+CACHE_TAG      = "chgrowth"
+OUT_FILE       = "export_table_growth_2023.csv"
+SANITY_HS      = "0306"
+SANITY_FIELD   = "india_exports_usd_m"   # shrimp: DGFT FY24 = $4,639.51M
+SANITY_RANGE   = (3_500, 5_500)
 
 def is_clean(row):
     # partner2Code splits the aggregate row into per-second-partner breakdowns
