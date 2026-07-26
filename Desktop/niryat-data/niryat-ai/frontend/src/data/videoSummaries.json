@@ -1,0 +1,636 @@
+{
+  "generated": true,
+  "count": 11,
+  "sessions": [
+    {
+      "slug": "master-summary",
+      "day": 0,
+      "session": 0,
+      "order": 0,
+      "title": "MASTER SUMMARY — EXIM Business Course (India)",
+      "shortTitle": "Master Course Summary",
+      "topics": [
+        "Course Overview",
+        "Key Takeaways",
+        "Action Checklist"
+      ],
+      "icon": "trophy",
+      "sourceFile": "MASTER.md",
+      "sourceType": "course_video",
+      "overview": "",
+      "sections": [
+        {
+          "heading": "Course Overview",
+          "content": "This course teaches the complete, practical process of starting and running an export-import (EXIM) business from India — from legally forming a company through to getting paid for an international shipment. Across 10 sessions (Days 1–6), it covers: company formation and mandatory registrations (IEC, RCMC), market research using government trade-data tools, the role of government bodies (FIEO, Export Promotion Councils) and export incentive schemes, sourcing buyers through embassies/chambers/B2B platforms, selling globally via eCommerce, digital lead-generation tools, Incoterms and shipping responsibility, international payment methods and banking, the role of Customs House Agents, and a closing session helping participants turn course knowledge into an action plan. The course draws on real participant Q&A throughout, covering products ranging from spices and turmeric to handicrafts, Ayurvedic medicine, jewelry, and industrial goods."
+        },
+        {
+          "heading": "The 15–20 Most Important Takeaways (Grouped by Topic)",
+          "content": "### Company Formation\n1. **Choose the right business structure** for your stage: Sole Proprietorship (fastest, needs only PAN) → Partnership (needs a Partnership Deed) → LLP/OPC/Private Limited (more credibility, more formality via MCA registration).\n2. **Company naming matters**: keep it short, relevant to your product/activity, check domain-name availability, and consider trademark registration for long-term brand protection.\n3. A proprietorship name can repeat across cities, but a **Private Limited company name must be nationally unique**.\n4. Open a **business bank account** (PAN, Aadhaar, address proof) — choice of public vs. private bank is a service/convenience trade-off.\n\n### Documentation & Registration\n5. **IEC (Import Export Code)** is mandatory for any commercial export/import — apply online at **dgft.gov.in**, verified via Aadhaar OTP; it now requires **annual updation** to stay active.\n6. **RCMC (Registration-Cum-Membership Certificate)** from the relevant sector's **Export Promotion Council** (or Commodity Board / APEDA) is required to access government benefits — match your registration to your product's actual industry, and register with multiple councils if you deal in multiple product categories.\n7. **GST registration** is required for commercial billing (not for merely developing the business).\n8. Know your product's correct **HS Code (Harmonised System)** — a 6-digit international standard (maintained by the World Customs Organization, used by ~200 countries) extended to 8 digits in India (ITC-HS) — this unlocks import-duty lookups, FTA benefits, and scheme eligibility.\n\n### Government Schemes & Bodies\n9. **FIEO (Federation of Indian Export Organisations)** is the apex exporter body — provides trade policy updates, trade-barrier alerts, embassy/consulate contacts, and requires annual membership renewal.\n10. Government incentive schemes include **Duty Drawback** (refund of input duties) and **Interest Subvention** (subsidized export finance interest rates).\n11. **Free Trade Agreements (FTA), Economic Partnership Agreements, and Economic Cooperation Agreements** can reduce/eliminate import duty in partner countries — always check if one exists with your target market.\n12. Use official data tools — **commerce.gov.in, the Export-Import Data Bank, and the Niryat Mitra app** — to validate product demand, competition, and trend direction with real data, not guesswork.\n\n### Buyer Sourcing & Marketing\n13. Find buyers through multiple channels simultaneously: **Indian embassy/consulate trade promotion officers, chambers of commerce (Indian and foreign, e.g. Indo-American Chamber), B2B marketplaces (Alibaba), EPC member directories, LinkedIn, and industry-specific company databases.**\n14. A credible, complete **company profile and professional website** (proper legal structure, trademark, verified contact info, SEO) is a prerequisite for buyers to trust and respond to outreach.\n15. **eCommerce (e.g., Amazon Global Selling)** offers a lower-barrier path for small exporters to reach international buyers without a physical overseas presence — strongest categories: jewelry, health/beauty/Ayurvedic products, handicrafts, and agri/food items.\n16. Always confirm **buyer-specific and country-specific product specifications** before finalizing a deal — requirements vary by market even for the same product.\n\n### Logistics & Incoterms\n17. **Incoterms** (regulated by the ICC, Paris) define only **delivery point, cost allocation, and risk transfer** between buyer and seller — not quality, quantity, or payment terms. The four groups run from **Ex Works (minimum seller responsibility)** to **DDP (maximum seller responsibility)**, with **FOB and CIF** the most common terms in practice.\n18. Always calculate the **full landed cost** (product + margin + transport + duties + clearance charges) before quoting a price, and choose the right **container type** (FCL, LCL/consolidated, reefer, open-top) based on product size/quantity/temperature needs.\n19. **Customs House Agents (CHAs)** handle the specialized documentation (Shipping Bill for exports, Bill of Entry for imports) and customs interface — compare quotes from multiple CHAs and shipping lines rather than defaulting to one. **Dry ports/ICDs** make customs accessible even for landlocked exporters.\n\n### Payments & Banking\n20. International payment methods range from lowest exporter risk (**advance payment**) to higher risk (open account), with **Documents Against Payment (D/P), Documents Against Acceptance (D/A), and Letters of Credit (LC)** as secure middle-ground options — an LC is the most secure since a bank guarantees payment.\n21. Always specify **payment terms, currency, and who bears bank/cancellation charges** clearly in the contract, and ensure all trade documents (commercial invoice, packing list) are free of discrepancies, since banks and insurers check these before releasing payment. Foreign exchange transactions must comply with **FEMA**."
+        },
+        {
+          "heading": "Final Action Checklist — Starting an Export Business in India",
+          "content": "1. **Choose your product and validate demand** using HS code lookups and official export-import data tools (commerce.gov.in, Export-Import Data Bank) — check which countries import it, at what volume, and the trend direction.\n2. **Register your business entity** — start with a sole proprietorship if new, upgrading to LLP/Pvt Ltd as you scale; secure a matching domain name and consider a trademark.\n3. **Open a business bank account** with a bank experienced in international trade transactions.\n4. **Obtain your IEC** via dgft.gov.in and set a reminder to update it annually.\n5. **Register for RCMC** with the Export Promotion Council/Commodity Board matching your product's actual industry use.\n6. **Get GST registration** for commercial billing.\n7. **Identify your product's HS code** and check destination-country import duty, labeling rules, and any applicable FTA benefits.\n8. **Arrange quality/organic certification** if relevant to your product category, before approaching international buyers.\n9. **Build a credible online presence**: a professional website, verified company profile, and active social media/LinkedIn presence.\n10. **Identify buyers** through embassy trade officers, chambers of commerce, B2B platforms (Alibaba), EPC directories, and/or eCommerce marketplace listings (Amazon Global Selling).\n11. **Understand and select the right Incoterm** (start with FOB if new; consider CIF/DDP as you gain experience) and calculate your full landed cost before quoting.\n12. **Choose a reliable Customs House Agent (CHA)** and shipping line by comparing multiple quotations.\n13. **Agree clear payment terms** in your contract — currency, due dates, bank charge responsibility — and prefer secured methods (advance payment, LC, D/P) especially for new buyer relationships.\n14. **Prepare accurate trade documentation** for every shipment: commercial invoice, packing list, Shipping Bill/Bill of Entry, Bill of Lading.\n15. **Stay connected and keep learning** — join trade networks, monitor policy updates via FIEO/government portals, and continue refining your process shipment by shipment."
+        }
+      ]
+    },
+    {
+      "slug": "day1-company-formation",
+      "day": 1,
+      "session": 1,
+      "order": 1,
+      "title": "Day 1 — First Session: Company Formation & EXIM Pre-requisites (19.07.21)",
+      "shortTitle": "Company Formation & Pre-requisites",
+      "topics": [
+        "Company Formation",
+        "IEC",
+        "RCMC",
+        "Bank Account",
+        "Branding"
+      ],
+      "icon": "building",
+      "sourceFile": "Day1-Company-Formation.md",
+      "sourceType": "course_video",
+      "overview": "This opening session of the export-import (EXIM) course welcomes participants from across India (each running businesses in garments, pharmaceuticals, spices, silk sarees, handicrafts, candles, agro-products, etc.) and lays out the course roadmap. The bulk of the session teaches the **foundational setup needed to legally start an export business in India** — choosing a company structure, registering it, obtaining the mandatory Import-Export Code (IEC) and Export Promotion Council membership (RCMC), opening a bank account, and building an online presence. A recurring theme is **value addition / product differentiation** — turning a commodity into a higher-margin product rather than competing on the raw item.",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This opening session of the export-import (EXIM) course welcomes participants from across India (each running businesses in garments, pharmaceuticals, spices, silk sarees, handicrafts, candles, agro-products, etc.) and lays out the course roadmap. The bulk of the session teaches the **foundational setup needed to legally start an export business in India** — choosing a company structure, registering it, obtaining the mandatory Import-Export Code (IEC) and Export Promotion Council membership (RCMC), opening a bank account, and building an online presence. A recurring theme is **value addition / product differentiation** — turning a commodity into a higher-margin product rather than competing on the raw item."
+        },
+        {
+          "heading": "Course Roadmap (what later sessions will cover)",
+          "content": "- **Marketing & product selection** across countries; how to research and verify buyer sources.\n- **Role of government in export promotion**, trade agreements, and various sourcing channels.\n- **Incoterms**, export pricing, and how to quote.\n- **Banking & international payments**, payment risk management.\n- **Customs agents / CHA** and services to exporters.\n- How to run an export business **with little or no investment**.\n- Session recordings shared the next morning; study material provided via link; a WhatsApp group is used for networking and Q&A."
+        },
+        {
+          "heading": "Key Concept — Value Addition / Differentiation",
+          "content": "- Don't just export a raw commodity — think of a **differentiated, value-added form** that earns more profit.\n- Examples given: onion → **onion powder / onion rings**; turmeric and other spices → powders/blends; garlic; **hair packs**, **mushroom powder**, etc.\n- Ask \"what can make my product different from everyone else's?\" — differentiation is what wins buyers and margin."
+        },
+        {
+          "heading": "Company Formation — Types of Business Structure",
+          "content": "Choose the structure that fits your scale and credibility needs:\n\n- **Sole Proprietorship** — simplest and fastest to register. Essentially needs only a **PAN card**; the trade name is used but the PAN's legal name governs. Easy documents to open a bank account; can even be registered at your **home address**.\n- **Partnership** — requires a **Partnership Deed** (prepared via a Chartered Accountant) between the partners.\n- **LLP (Limited Liability Partnership)**, **One Person Company (OPC)**, and **Private Limited Company** — registered under the Ministry of Corporate Affairs (MCA) / companies compliances. These carry **more credibility** with international buyers but involve more formalities.\n\n### Naming the company\n- The name is **very important**. Keep it reasonably short (avoid overly long names like \"ABC Export Import Factory Private Limited\").\n- It can combine words but should relate to your **nature of business / activity**.\n- **Check domain-name (.com) availability** for the chosen name.\n- Note: for a proprietorship the **same name can exist in different cities** without issue; a **Private Limited** name must be **nationally unique** (registered centrally).\n- You can register a **trademark** for the name/logo (not compulsory to start, but protects brand)."
+        },
+        {
+          "heading": "Bank Account",
+          "content": "- Open a **current/business account** at your nearest bank.\n- Choice of **public-sector banks vs private banks** (trade-off between service and convenience).\n- Typical documents: **PAN card, Aadhaar card, address proof** (plus the entity's registration/deed as applicable)."
+        },
+        {
+          "heading": "IEC — Import Export Code (mandatory)",
+          "content": "- **Required for anyone doing international trade** above the threshold; you cannot export/import commercially without it.\n- Apply **online** at the DGFT portal: **dgft.gov.in**.\n- Process: register on the site with **email + phone**, verify via **Aadhaar-based OTP**, upload required documents (PAN, bank details, address), and submit.\n- The process is now **quick and online** (earlier it could take 2–3 months).\n- **Annual updation** of the IEC is now required — update your details every year (typically April–June window) or the code can be deactivated."
+        },
+        {
+          "heading": "RCMC — Registration-Cum-Membership Certificate",
+          "content": "- Issued by **Export Promotion Councils (EPCs)** under the Government of India, one per sector — e.g. **Gems & Jewellery, Electronics, Chemicals, Garments, Handloom, Pharma**, etc.\n- Also relevant: **Commodity Boards** (Coconut Board, Tea Board, Spices Board, Tobacco Board, etc.) and **APEDA** (Agricultural & Processed Food Products Export Development Authority) for agri/processed-food exporters.\n- Membership (free or paid depending on the council) gives access to **government export benefits/schemes** and **latest trade & industry information**.\n- Apply online; RCMC membership certificate is used to claim government incentives."
+        },
+        {
+          "heading": "\"Made in India\" / Manufacturing",
+          "content": "- Products should be **manufactured in India** and labelled accordingly to qualify as Indian-origin exports."
+        },
+        {
+          "heading": "Building Online Presence & Digital Marketing",
+          "content": "- A professional **website** builds brand value and goodwill (the speaker cites how brand/website value can run into billions for big brands).\n- **SEO**: rank on Google via good **keywords, content, product details, and images**; the website should surface on the first page for relevant searches.\n- **Social media** — Facebook, Instagram, Twitter — plus **WhatsApp Business** with a downloadable **catalog**.\n- Use **content writing** and even chatbots/auto-replies to engage visitors and capture leads (name, mobile, email) for follow-up."
+        },
+        {
+          "heading": "Samples & Courier",
+          "content": "- Send **product samples** to serious buyers; some exporters send **free samples**, others recover **courier charges** (e.g. via Blue Dart), sharing the **courier account number / tracking number** with the buyer.\n- Give samples selectively — typically only once a buyer shows genuine intent."
+        },
+        {
+          "heading": "Billing, GST & Buyer Database",
+          "content": "- Prepare proper **invoices/bills** with company name, product, and **GST details**.\n- **GST** is not needed merely to develop the business but is required for commercial billing.\n- Maintain a **database of all buyers/leads** for follow-up; a Google form is used to collect participant questions and details."
+        },
+        {
+          "heading": "Required Documents / Registrations Checklist (as taught)",
+          "content": "- **PAN card** (individual or entity)\n- **Aadhaar card** (for OTP verification)\n- **Address proof**\n- **Partnership Deed** (if partnership) / MCA registration (if LLP/OPC/Pvt Ltd)\n- **Bank current account**\n- **IEC** (Import Export Code) via dgft.gov.in\n- **RCMC** from the relevant Export Promotion Council / Commodity Board / APEDA\n- **GST registration** (for commercial billing)\n- Optional: **Trademark** registration for name/logo"
+        },
+        {
+          "heading": "Portals / Bodies Named",
+          "content": "- **DGFT (dgft.gov.in)** — issues IEC\n- **MCA** — company registration (LLP/OPC/Pvt Ltd)\n- **Export Promotion Councils (EPCs)** — issue RCMC by sector\n- **Commodity Boards** (Coconut, Tea, Spices, Tobacco) and **APEDA** — agri/commodity exports"
+        }
+      ]
+    },
+    {
+      "slug": "day1-market-research",
+      "day": 1,
+      "session": 2,
+      "order": 2,
+      "title": "Day 1 — Second Session: Market Research on Export-Import Potential Products (19.07.21)",
+      "shortTitle": "Market Research & Product Selection",
+      "topics": [
+        "HS Codes",
+        "Market Research",
+        "Trade Data",
+        "Certification"
+      ],
+      "icon": "search",
+      "sourceFile": "Day1-Second-Session-Market-Research.md",
+      "sourceType": "course_video",
+      "overview": "This session teaches participants how to select a product to export and how to validate its potential using government trade-data tools. It walks through HS (Harmonised System) product codes, official data sources for export/import statistics, how to identify target countries and competitors, and quality/certification requirements — with a live Q&A addressing specific products (spices, jaggery, turmeric, organic food, Ayurvedic medicine, handicrafts, rice).",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This session teaches participants how to select a product to export and how to validate its potential using government trade-data tools. It walks through HS (Harmonised System) product codes, official data sources for export/import statistics, how to identify target countries and competitors, and quality/certification requirements — with a live Q&A addressing specific products (spices, jaggery, turmeric, organic food, Ayurvedic medicine, handicrafts, rice)."
+        },
+        {
+          "heading": "Choosing Your First Product",
+          "content": "- Selection factors: personal familiarity/expertise, existing manufacturing capability, whether the product needs **value addition**, and whether the product/category already has export demand.\n- You do not need to be the manufacturer yourself — you can also work as a **trader/exporter** by sourcing from manufacturers, provided you have proper agreements and registration.\n- Multiple products can be registered/exported under one IEC — you are not restricted to a single item."
+        },
+        {
+          "heading": "HS Code (Harmonised System) — Core to Market Research",
+          "content": "- Every product has a unique classification code used in customs/trade data, organized into **Chapters** (2-digit), then further into 4, 6, and 8-digit sub-codes for increasing specificity.\n- Examples discussed: turmeric, basmati rice, chilli powder, jaggery, spices — each falls under a specific chapter (e.g., agricultural products, spices chapters).\n- Finding your HS code: search the product name online / verify via government HS code lookup; correct code is essential for accessing export data and any applicable duties/incentives.\n- The last digits allow country-specific product description drill-down."
+        },
+        {
+          "heading": "Data Sources for Market Research (key portals mentioned)",
+          "content": "- **commerce.gov.in** — Ministry of Commerce & Industry portal with district-wise export data and policy circulars.\n- **Export-Import Data Bank** — under the Ministry of Commerce; shows net export/import figures by product/HS code and country.\n- A dashboard/tool referred to for **Foreign Trade Policy** data.\n- **Niryat Mitra** app — available on Play Store; helps identify export leads/data (mentioned as a free downloadable resource).\n- Country trade portals such as **UN Comtrade**-type / international resources for cross-checking global import-export figures (referenced generally, e.g., checking which countries import a product and in what volume)."
+        },
+        {
+          "heading": "What to Extract From the Data",
+          "content": "For a chosen HS code / product, learn to find:\n- **Which countries export this product**, and their **share (%) of world exports/trade**.\n- **Which countries import this product**, and the trend (increasing/decreasing) over the last ~5 years.\n- The **top exporting countries** (e.g., discussion of Italy, Tunisia as major olive oil exporters/producers) and how competitive your target market is.\n- **State-wise / district-wise export data within India** (e.g., which Indian states/districts are already major exporters of a given product — examples cited: Gujarat, Maharashtra, Tamil Nadu, Karnataka, UP, Haryana for various products).\n- Historical trend data (current year vs. previous years) to judge whether a product's exports are growing or shrinking."
+        },
+        {
+          "heading": "Government/Industry Bodies for Registration by Product Category",
+          "content": "- **Export Promotion Council for Handicrafts (EPCH)** — for handicraft exporters; contact/registration details available on its website.\n- Product-specific councils/boards (as in Session 1): e.g., **Spices Board**, **Coconut Board**, chemical/pharma-related councils — register with the board matching your specific product; if you deal in multiple products you may need to register with more than one board.\n- **RCMC (Registration-Cum-Membership Certificate)** — confirmed again as required registration proof; discussed relative to which council to approach based on product category (e.g., a jaggery exporter vs. a handicraft exporter goes to different councils)."
+        },
+        {
+          "heading": "Quality, Certification & Samples",
+          "content": "- **Quality testing** is essential before export — buyers will reject product without it; testing should be done proactively, not only when demanded.\n- **Organic certification**: required if marketing a product as \"organic\" (e.g., organic farming/jaggery) — a formal certification process exists; without it, you cannot legally claim \"organic\" status.\n- **Ayurvedic/herbal medicine exports**: classified under a specific category; formulation and country-specific import regulations can be more complex (soil type, herb sourcing, and destination-country drug rules all matter).\n- **Samples**: expect to send free or low-cost samples to serious buyers to demonstrate quality before larger orders are placed; courier costs are typically bilaterally agreed (buyer or seller pays).\n- Manufacturing/registration license requirements are product-specific (e.g., a question on jaggery manufacturing and labelling licensing was raised — the manufacturer needs proper licensing and correct labeling for the product/quantity being sold)."
+        },
+        {
+          "heading": "Q&A Highlights (illustrative real questions from participants)",
+          "content": "- **Basmati rice to Kuwait**: participant noted demand already exists; advised to check current suppliers/competition data before entering, since an already well-supplied market may not be advisable without differentiation.\n- **Turmeric export from Pune region**: discussed regional suitability and specific quality traits relevant to that turmeric variety.\n- **Jaggery manufacturing/export from Gujarat**: covered manufacturer registration, labeling requirements, and limited-quantity local sales considerations.\n- **Ayurvedic/herbal medicine exporter (Bengaluru)**: guided toward the appropriate product category and away from assuming a single \"one-size\" registration covers all herbal products.\n- **Handicrafts/EPCH member (existing exporter)**: confirmed follow-up on registration/certificate matters through the council."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- Product selection should be backed by **data, not guesswork** — always validate demand, competition, and trend direction using official government export-import data sources before committing.\n- Correctly identifying your **HS code** unlocks access to all further research (data, duties, incentives).\n- Match your **RCMC/registration** to the correct sector council — it varies by product and can require multiple registrations for multi-category businesses.\n- **Quality assurance and (where relevant) certification** (e.g., organic) must be arranged in advance of dealing with international buyers.\n- Use free government/industry tools (commerce.gov.in, Export-Import Data Bank, Niryat Mitra app) rather than relying only on informal market awareness."
+        }
+      ]
+    },
+    {
+      "slug": "day2-fieo-schemes",
+      "day": 2,
+      "session": 1,
+      "order": 3,
+      "title": "Day 2 — First Session: Role of FIEO in Export Promotion and Government Schemes",
+      "shortTitle": "FIEO & Government Schemes",
+      "topics": [
+        "FIEO",
+        "HS Codes",
+        "FTAs",
+        "Duty Drawback",
+        "Incentives"
+      ],
+      "icon": "schemes",
+      "sourceFile": "Day2-FIEO-Govt-Schemes.md",
+      "sourceType": "course_video",
+      "overview": "This session introduces **FIEO (Federation of Indian Export Organisations)** — its role as the apex body representing Indian exporters — and covers how the international **HS Code (Harmonised System)** classification works globally, along with key government export-incentive schemes. It closes with a live Q&A covering turmeric, steel handicrafts, Ayurvedic/Unani medicine, chemical/pharma products, and industrial belt exports.",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This session introduces **FIEO (Federation of Indian Export Organisations)** — its role as the apex body representing Indian exporters — and covers how the international **HS Code (Harmonised System)** classification works globally, along with key government export-incentive schemes. It closes with a live Q&A covering turmeric, steel handicrafts, Ayurvedic/Unani medicine, chemical/pharma products, and industrial belt exports."
+        },
+        {
+          "heading": "FIEO — Role and Structure",
+          "content": "- FIEO is the **national umbrella trade body** for Indian exporters, working alongside sector-specific Export Promotion Councils.\n- Functions include: promoting international trade, liaising with the government on trade policy, sharing updates on **trade barriers, exchange rate changes, and international events**, and acting as a bridge between Indian exporters and **foreign chambers of commerce / trade counterparts** abroad.\n- Provides **alerts from Indian embassies and consulates** and information from foreign High Commissions (useful for identifying overseas business leads/buyers).\n- Has a **membership registration** process (like RCMC) that must be **renewed annually**.\n- Operates with **regional/state offices** across India — participants were given examples of state-level contacts (e.g., a contact in Chatra district, Jharkhand, near Ranchi) for local assistance.\n- Maintains the **Indian Trade Portal**, a government website providing country-wise trade agreement details, duty information, and HS chapter lookups."
+        },
+        {
+          "heading": "HS Code — International Classification System",
+          "content": "- The HS Code system is maintained by the **World Customs Organization (WCO)** and used by around **200 countries** for classifying traded goods.\n- The **first 6 digits are internationally standardized**; individual countries can add further digits (e.g., India uses an extended 8-digit ITC-HS code) for more specific product description.\n- Structure: **Chapters** (broad categories) → sub-headings → increasingly specific codes; knowing your product's correct HS chapter/code is essential for checking **import duty rates** in the destination country and for accessing trade agreement benefits.\n- The Indian Trade Portal allows searching by HS chapter/code to see applicable duties and trade agreement terms for a given destination country."
+        },
+        {
+          "heading": "Free Trade Agreements (FTAs)",
+          "content": "- India has signed various types of trade agreements with partner countries, including:\n  - **Free Trade Agreements (FTA)**\n  - **Economic Partnership Agreements (EPA)**\n  - **Economic Cooperation Agreements (ECA)**\n- These agreements can **reduce or eliminate import duty** for Indian goods in the partner country — checking whether an FTA exists with your target market can make your product more price-competitive."
+        },
+        {
+          "heading": "Government Export Incentive Schemes Mentioned",
+          "content": "- **Duty Drawback** — refund of duties paid on inputs used in manufacturing exported goods.\n- **Interest Subvention** — a subsidy on interest rates for export finance/loans, making working capital cheaper for exporters.\n- Note: benefits/incentives are generally tied to correct **HS code classification** and being properly registered (RCMC) with the relevant Export Promotion Council."
+        },
+        {
+          "heading": "Registration & Eligibility Reminders",
+          "content": "- **RCMC/Council registration** must match your specific product category and needs **annual renewal**.\n- Basic eligibility for holding an export-import license/account typically requires a **bank account and financial records (e.g., balance sheet)**.\n- Multi-product exporters may need to register with **more than one council** (e.g., a spice exporter registers with the Spices Board; a different product may fall under a different board)."
+        },
+        {
+          "heading": "Q&A Highlights",
+          "content": "- **Turmeric exporters**: repeatedly directed to register with the **Spices Board**, since turmeric and turmeric-based products fall under its jurisdiction; participants asked about turmeric-specific documentation and quality processes.\n- **Steel handicraft items (e.g., decorative door handles)**: identified as having **strong demand in the UK**; such items fall under the **handicrafts export category**, so registration should be with the Export Promotion Council for Handicrafts.\n- **Ayurvedic and Unani medicine exports**: flagged as a **distinct category** from general product exports — participants were advised these need a separate registration/regulatory process specific to Ayurveda/Unani products rather than the standard goods pathway.\n- **Chemical/pharmaceutical product exporter**: asked about confirming correct registration for a chemical export business; advised to confirm the right council based on the specific chemical/product line.\n- **Industrial belts to the Middle East**: a participant planning to export industrial belts to Middle Eastern countries was advised on using trade/export data resources to validate the plan.\n- **General registration renewal** was reiterated multiple times as a **yearly requirement**, not a one-time step."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- **FIEO** functions as the exporter's primary link to government policy updates, trade barrier alerts, and international trade contacts — a resource distinct from (but complementary to) product-specific Export Promotion Councils.\n- Understanding **HS codes** is the gateway to checking import duties, FTA benefits, and government incentive eligibility for any product.\n- **Duty drawback and interest subvention** are two concrete government schemes that reduce cost/improve margins for registered exporters.\n- All export registrations (RCMC, FIEO membership) require **annual renewal** — lapses can affect scheme eligibility.\n- Product category determines which specific board/council to register with — always confirm the right one before assuming a single registration covers all products."
+        }
+      ]
+    },
+    {
+      "slug": "day2-buyer-sources",
+      "day": 2,
+      "session": 2,
+      "order": 4,
+      "title": "Day 2 — Second Session: Various Sources for Buyers (20.07.21)",
+      "shortTitle": "Finding International Buyers",
+      "topics": [
+        "Buyers",
+        "Embassies",
+        "Chambers of Commerce",
+        "B2B Platforms",
+        "Pricing"
+      ],
+      "icon": "buyers",
+      "sourceFile": "Day2-Second-Session-Buyer-Sources.md",
+      "sourceType": "course_video",
+      "overview": "This session covers where and how exporters can find genuine international buyers — through official government/diplomatic channels, chambers of commerce, B2B marketplaces, and by presenting a credible company profile. It closes with a Q&A touching on pricing in foreign currency, company structure/branding, product specifications demanded by overseas buyers, and quality certification when the exporter cannot be physically present abroad.",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This session covers where and how exporters can find genuine international buyers — through official government/diplomatic channels, chambers of commerce, B2B marketplaces, and by presenting a credible company profile. It closes with a Q&A touching on pricing in foreign currency, company structure/branding, product specifications demanded by overseas buyers, and quality certification when the exporter cannot be physically present abroad."
+        },
+        {
+          "heading": "Government & Diplomatic Channels",
+          "content": "- **Indian Embassies and Consulates** — each has a **Commercial Department / Trade Promotion Officer** whose role is to help Indian exporters connect with local buyers and importers in that country, share market information, and support joint ventures and technology-transfer opportunities.\n- These offices can be contacted directly for country-specific buyer leads and are considered one of the most credible sources since they are backed by government relations between the two countries."
+        },
+        {
+          "heading": "Chambers of Commerce",
+          "content": "- Both **Indian chambers of commerce** and their **foreign counterparts** (example cited: the **Indo-American Chamber of Commerce**) act as networking bodies connecting exporters with importers/buyers in partner countries.\n- Membership in relevant chambers gives access to business directories, member lists, and networking events with potential buyers."
+        },
+        {
+          "heading": "B2B / B2C Marketplaces",
+          "content": "- Global online marketplaces (**Alibaba** cited as the leading example) let exporters list products and connect directly with international buyers.\n- A complete, well-maintained **company profile** — with full company details, product listings, and contact information — is essential, since buyers evaluate suppliers based on how their profile appears on these platforms.\n- Tender search tools are also available on such platforms/websites, letting exporters search and respond to international **tenders** relevant to their product."
+        },
+        {
+          "heading": "Export Promotion Council / RCMC as a Buyer-Discovery Channel",
+          "content": "- Being registered with your relevant Export Promotion Council (e.g., for Handicrafts) also makes you discoverable, since councils maintain **member directories** that overseas buyers/agencies may consult.\n- Reinforces the importance of getting and maintaining RCMC registration — it is not just a compliance requirement but also a credibility and visibility tool."
+        },
+        {
+          "heading": "Company Profile & Credibility",
+          "content": "- A strong, verifiable **company profile** (proper legal name, registered address, phone, email, website) builds buyer trust — compared to companies with vague or incomplete listings.\n- Larger, well-known companies (examples cited: **Sun Pharma, Cipla**) are used to illustrate how strong branding and company credibility support winning international business, even though small exporters can compete with a clear, honest profile.\n- Choice of business structure (proprietorship vs. private limited) and securing a **trademark** for your brand name were again flagged as factors that strengthen credibility with buyers over time."
+        },
+        {
+          "heading": "Product Specifications & Buyer Requirements",
+          "content": "- Overseas buyers often specify precise product requirements — example discussed: a **Singapore buyer's detailed specification for red chilli** (grade, quality parameters) that the exporter must match exactly before a deal proceeds.\n- Exporters should expect to adjust or confirm product specifications per buyer/per country rather than assuming one specification fits all markets."
+        },
+        {
+          "heading": "Pricing & Currency",
+          "content": "- Export prices are generally quoted and settled in **foreign currency** (e.g., USD), not Indian Rupees.\n- The final price should account for the **prevailing exchange rate** at the time of quotation, since currency fluctuations affect actual realized revenue."
+        },
+        {
+          "heading": "Certification Without Physical Presence Abroad",
+          "content": "- A participant asked how to get **quality/organic certification or approval** for a market (e.g., in Europe) without being physically present there.\n- Guidance: this is handled through **authorized local certification bodies or agents** in the destination country/region who can conduct the required inspection/certification process on the exporter's behalf, so physical presence is not mandatory."
+        },
+        {
+          "heading": "Warehouse Setup & Government Support",
+          "content": "- A question on setting up a **warehouse abroad** was addressed, noting that **government grants/support schemes** exist to help Indian exporters establish overseas storage/distribution infrastructure — exporters should check with the relevant scheme/authority for eligibility."
+        },
+        {
+          "heading": "Import Duty as a Market Filter",
+          "content": "- Example discussed: **mango exports**, where high **import duty** in a potential destination country can make that market unviable — reinforcing the earlier lesson (Session 2, Day 1) to check destination-country import duty via HS code before committing to a market."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- Buyers can be found through **multiple channels**: Indian embassies/consulates (trade promotion officers), chambers of commerce, B2B platforms like Alibaba, and EPC member directories — use more than one simultaneously.\n- A complete, credible **company profile** (legal structure, trademark, verified contact details) is a prerequisite for buyers to trust and engage with you.\n- Always confirm **buyer-specific and country-specific product specifications** before finalizing a deal.\n- Quote and settle prices in **foreign currency**, accounting for exchange rate movement.\n- Certification/approval processes in a foreign market can typically be completed via **local authorized agents**, without needing to travel there.\n- Government **grants/schemes** may support overseas warehouse setup — check eligibility before ruling this out as too costly."
+        }
+      ]
+    },
+    {
+      "slug": "day3-ecommerce",
+      "day": 3,
+      "session": 1,
+      "order": 5,
+      "title": "Day 3 — First Session: Doing Small Business Globally through eCommerce (by Mr. Gaurang Vasavada, 21.07.21)",
+      "shortTitle": "Global eCommerce for Small Business",
+      "topics": [
+        "eCommerce",
+        "Amazon",
+        "Logistics",
+        "Payments",
+        "Pricing"
+      ],
+      "icon": "boxes",
+      "sourceFile": "Day3-Ecommerce-Small-Business.md",
+      "sourceType": "course_video",
+      "overview": "This session, led by guest speaker Mr. Gaurang Vasavada, focuses on how small and medium exporters can reach global buyers directly through **cross-border eCommerce** (e.g., Amazon Global Selling) rather than relying only on traditional trade channels. It covers which product categories perform well online, the operational essentials (banking, payment gateways, logistics, customs documents, pricing, returns), and closes with a detailed Q&A.",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This session, led by guest speaker Mr. Gaurang Vasavada, focuses on how small and medium exporters can reach global buyers directly through **cross-border eCommerce** (e.g., Amazon Global Selling) rather than relying only on traditional trade channels. It covers which product categories perform well online, the operational essentials (banking, payment gateways, logistics, customs documents, pricing, returns), and closes with a detailed Q&A."
+        },
+        {
+          "heading": "Why eCommerce for Small Exporters",
+          "content": "- Cross-border eCommerce lets even small businesses reach international buyers **without needing a physical presence abroad** — no in-person visits, no local office required to start selling.\n- Marketplaces (Amazon and similar platforms) already have the customer base, payment infrastructure, and in many cases warehousing — sellers plug into this existing system instead of building it from scratch.\n- Highlighted as especially valuable for small and medium enterprises (SMEs) who cannot afford traditional overseas market-entry costs."
+        },
+        {
+          "heading": "Product Categories With Strong Export/eCommerce Potential",
+          "content": "- **Jewelry** — gold, precious stone, and beaded jewelry; India has multiple manufacturing hubs (e.g., Jaipur, Surat) making this a strong online export category.\n- **Health & beauty products** — including **Ayurvedic products** (e.g., agar/oudh-based items, oils), natural/herbal items, dental and skin-care products.\n- **Handicrafts** — from centers like Jammu & Kashmir, artisans producing furniture, carpets, and decorative items.\n- **Agriculture and food products** — natural/organic food items are noted as having rising global demand.\n- **Home décor, textiles, and fashion items** — general lifestyle and apparel categories also cited as consistently in demand.\n- Products from **multiple parts of India** (not just one hub) collectively feed these export categories, showing the geographic spread of India's manufacturing base."
+        },
+        {
+          "heading": "Setting Up to Sell Online Internationally",
+          "content": "- **Website**: having your own branded, **mobile-friendly website** builds trust and is useful alongside marketplace listings — clean design and easy navigation increase buyer confidence and reduce hesitation/questions.\n- **Marketplace accounts**: register as a seller on relevant platforms (Amazon is the primary example discussed, including **Amazon.in**, and Amazon's international/US marketplace) — separate seller accounts and requirements apply for domestic vs. international marketplaces.\n- **Local requirements per market**: each country/marketplace may have different documentation, product category rules, or listing requirements — don't assume one setup works everywhere."
+        },
+        {
+          "heading": "Banking & Payments",
+          "content": "- You will typically need **two types of bank accounts**: a regular domestic account and a **separate account/facility suited for international trade transactions**.\n- A **strong banking partner** is important — banks differ in how well they support foreign currency transactions, so choose one experienced with export/import trade.\n- **Payment gateways** are essential for receiving online payments in foreign currency; the exporter should confirm which gateways are supported and how foreign currency is credited/converted.\n- Recommended to maintain proper **bank statements and foreign remittance certificates** (e.g., FIRC) for each transaction — needed for compliance, GST, and RCMC/scheme benefit claims."
+        },
+        {
+          "heading": "Logistics & Shipping",
+          "content": "- Delivery/shipping options include **postal services (e.g., Speed Post, EMS/foreign post)**, **courier partners**, and **dedicated logistics/clearing-house agents**.\n- **Foreign Post Offices (FPOs)** in various Indian cities (e.g., Delhi, Mumbai, Kolkata, Chennai, Bengaluru, and other listed cities) act as a low-cost gateway for exporting parcels/samples using postal channels — useful for small-volume or sample shipments.\n- For larger or more frequent shipments, using a **courier/logistics partner** or **clearing and forwarding (C&F) agent** reduces transit time and handles customs paperwork more reliably.\n- Proper **packaging and labeling** — including country-specific labeling requirements — must be handled correctly to avoid customs delays or rejected shipments."
+        },
+        {
+          "heading": "Customs, Duty & Documentation",
+          "content": "- Required customs documents for shipments include a **shipping bill**, **declaration forms**, and invoice/value details.\n- **Import duty** in the destination country is a key cost factor — this again ties back to knowing the correct **HS code**, since duty rates vary by product classification and by country.\n- Products can face **different duty treatment** in different countries (e.g., differing rules for a product like a garment or cotton item depending on the destination), so this must be checked per market before pricing.\n- Every shipment should carry accurate documentation to avoid it being held up or rejected by customs on either side."
+        },
+        {
+          "heading": "Pricing Strategy",
+          "content": "- Prices should be **set separately per country/marketplace** — the same product may need a different listed price in the US vs. the UK vs. India, since costs, duties, and market expectations differ.\n- Total price should factor in **product cost + shipping/logistics cost + customs duty + marketplace fees + payment gateway charges**, not just the base product cost.\n- Free/discounted shipping thresholds and other marketplace-specific pricing norms should be studied for each platform."
+        },
+        {
+          "heading": "Returns & Customer Service",
+          "content": "- International marketplaces often have **higher return-rate expectations** and strict customer service standards; exporters must budget for a percentage of returns and factor this into pricing/margins.\n- Have a plan for handling returns (e.g., whether returned goods are sent back to India or handled locally via the marketplace's return infrastructure)."
+        },
+        {
+          "heading": "Q&A Highlights",
+          "content": "- **Coffee producer** asking about selling on **Amazon and Flipkart**: encouraged to explore both domestic and international marketplace listings depending on target buyers.\n- **Small-town/non-metro seller (near Kolkata)**: confirmed that eCommerce export is accessible even without being based in a metro city, as long as banking and logistics partners are in place.\n- Discussion on whether a **separate GST/export documentation batch** is needed for eCommerce exports vs. traditional export shipments — advised to maintain proper compliance records regardless of channel.\n- Confirmed that **inventory can be stored closer to the end market** (e.g., in a foreign warehouse via the marketplace's fulfillment service) to reduce delivery time, where such fulfillment options are available."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- **Cross-border eCommerce** is a realistic, lower-barrier path for small Indian exporters to sell internationally without needing an overseas physical presence.\n- Categories with strong traction: **jewelry, health & beauty/Ayurvedic products, handicrafts, and agri/food items**.\n- Success requires getting several operational pieces right together: a **professional website**, the right **marketplace accounts**, a **capable banking partner and payment gateway**, reliable **logistics/customs handling**, and **market-specific pricing**.\n- Always check destination-country **import duty and labeling rules** by HS code before listing a product in a new market.\n- Budget for **returns and marketplace fees** as real costs, not afterthoughts."
+        }
+      ]
+    },
+    {
+      "slug": "day3-lead-generation",
+      "day": 3,
+      "session": 2,
+      "order": 6,
+      "title": "Day 3 — Second Session: Lead Generation Tools (21.07.21)",
+      "shortTitle": "Lead Generation Tools",
+      "topics": [
+        "Lead Generation",
+        "LinkedIn",
+        "Social Media",
+        "Email Outreach"
+      ],
+      "icon": "target",
+      "sourceFile": "Day3-Second-Session-Lead-Generation.md",
+      "sourceType": "course_video",
+      "overview": "This session covers practical tools and techniques for generating international buyer leads — social media platforms, company databases, browser tools for finding contacts, and email outreach — followed by a Q&A on specific export queries (agarbatti to Dubai, cotton exports, African markets, and homeopathic medicine manufacturing).",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This session covers practical tools and techniques for generating international buyer leads — social media platforms, company databases, browser tools for finding contacts, and email outreach — followed by a Q&A on specific export queries (agarbatti to Dubai, cotton exports, African markets, and homeopathic medicine manufacturing)."
+        },
+        {
+          "heading": "HSN Code & Registration Reminders (from opening Q&A)",
+          "content": "- A participant asked about a \"mouth fresheners\" product with no clear HSN code — guidance was to research the closest matching HSN classification before proceeding, since correct classification is required for registration and duty purposes.\n- **Tamarind kernel powder** was discussed as an example product used in **industrial applications** (not just food) — despite being sourced as an agricultural commodity, its industrial use may mean registration should be checked with **both the Spice Board and Textile Board** (or the board matching its actual end-use industry), since the appropriate EPC/RCMC depends on how the product is actually used downstream, not just its raw origin."
+        },
+        {
+          "heading": "Social Media as a Lead Generation Channel",
+          "content": "- **Facebook**: business pages, groups, and paid advertisements (Facebook Ads) can be used to reach prospective buyers and build brand visibility; joining relevant industry/trade groups helps with networking and direct outreach.\n- **Instagram, Twitter**: useful for visual/brand promotion and lighter-touch engagement with international audiences.\n- **LinkedIn**: highlighted as a particularly active professional network for B2B lead generation — useful for identifying specific decision-makers within target companies (e.g., regional managers, marketing managers, executive directors) rather than just general company contact info."
+        },
+        {
+          "heading": "Company Databases & Prospecting",
+          "content": "- Building a target list involves finding **company profiles/prospectuses** — full company details (industry, size, location, key contacts) — before reaching out, rather than cold-contacting generic addresses.\n- Identifying the **right person within a company** (e.g., a regional or marketing manager rather than a generic inbox) significantly improves response rates.\n- Industry-specific searches (e.g., filtering by sector — pharma, fertilizer, cosmetics, automotive) help narrow down a realistic buyer list instead of mass-contacting unrelated companies."
+        },
+        {
+          "heading": "Browser & Automation Tools",
+          "content": "- **Google Chrome extensions** were mentioned as tools that can help with prospecting — e.g., finding contact/email information associated with company websites or LinkedIn profiles, saving manual search time.\n- **Email marketing automation** tools were discussed for sending outreach at scale and tracking engagement, rather than manually emailing each prospect one at a time."
+        },
+        {
+          "heading": "Marketplaces & Q&A Platforms",
+          "content": "- **Amazon** (seller/marketplace listings) reiterated as a channel where buyers actively search for products — maintaining a well-optimized listing supports inbound lead generation, not just direct outreach.\n- **Quora** and similar Q&A/community platforms were mentioned as sources for market research and even indirect lead generation, by answering relevant questions and building credibility in a product category."
+        },
+        {
+          "heading": "Company Credibility for Trust-Building",
+          "content": "- A professional company website, consistent branding, and a clear prospectus/profile were again emphasized as necessary for prospective clients to trust and respond to outreach — cold contact alone (without a credible online presence) is less effective at converting leads."
+        },
+        {
+          "heading": "Q&A Highlights",
+          "content": "- **Agarbatti (incense) export to Dubai**: a buyer's specific requirement/specification for agarbatti needs to be understood and matched precisely before proceeding.\n- **Cotton exports**: a brief question on cotton export was addressed, without extensive elaboration beyond general export process guidance already covered in earlier sessions.\n- **African markets — reducing risk with unregulated agents**: a participant asked how to reduce risk when African-country buyers are approached through agents in markets that are \"not properly regulated.\" Guidance: be cautious with **payment terms** — secure payment upfront or through safer payment mechanisms (e.g., LC or advance payment) before shipping, since agent-mediated deals in less-regulated markets carry higher non-payment risk.\n- **Homeopathic medicine manufacturing/export**: a participant asked for help starting export of homeopathic medicines; guided toward checking specific regulatory/registration requirements applicable to medicinal products (distinct from general goods) before proceeding.\n- **Gujarat pharma manufacturers (Ahmedabad)**: noted as having strong manufacturing capability, relevant to participants scouting manufacturing partners in that industry."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- Lead generation should combine **outbound** (social media outreach, email automation, LinkedIn contact-finding) with **inbound** (marketplace listings, Quora/community engagement, SEO-friendly website) approaches.\n- Always identify the **right decision-maker contact**, not a generic company address, to improve response rates.\n- Match your product's registration (RCMC/EPC) to its **actual end-use industry**, not just its raw material origin.\n- When dealing with buyers via agents in **less-regulated markets** (e.g., parts of Africa), prioritize secure payment terms to reduce non-payment risk.\n- Medicinal products (e.g., homeopathic medicine) have **distinct regulatory requirements** separate from standard goods exports — verify these before starting."
+        }
+      ]
+    },
+    {
+      "slug": "day4-incoterms",
+      "day": 4,
+      "session": 1,
+      "order": 7,
+      "title": "Day 4 — First Session: International Commercial Terms / Incoterms (by Ms. Manisha Thaker, 22.07.21)",
+      "shortTitle": "Incoterms (International Commercial Terms)",
+      "topics": [
+        "Incoterms",
+        "FOB",
+        "CIF",
+        "Landed Cost",
+        "Shipping"
+      ],
+      "icon": "ship",
+      "sourceFile": "Day4-Incoterms.md",
+      "sourceType": "course_video",
+      "overview": "This session, led by guest speaker Ms. Manisha Thaker, explains **Incoterms (International Commercial Terms)** — the standardized global rules that define who (buyer or seller) is responsible for transportation, cost, risk, and customs clearance at each stage of an international shipment. It covers the four Incoterm groups, key terms like FOB and CIF, and closes with a Q&A on dry ports, packaging, documentation, and choosing the right logistics partner.",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This session, led by guest speaker Ms. Manisha Thaker, explains **Incoterms (International Commercial Terms)** — the standardized global rules that define who (buyer or seller) is responsible for transportation, cost, risk, and customs clearance at each stage of an international shipment. It covers the four Incoterm groups, key terms like FOB and CIF, and closes with a Q&A on dry ports, packaging, documentation, and choosing the right logistics partner."
+        },
+        {
+          "heading": "What Incoterms Are and Who Regulates Them",
+          "content": "- Incoterms are a set of internationally standardized trade terms published and regulated by the **International Chamber of Commerce (ICC)**, headquartered in **Paris, France**. India is a member country and Indian exporters must follow ICC's Incoterm rules.\n- Incoterms are **universally recognized** — accepted by courts, government authorities, banks, and financial institutions worldwide, removing ambiguity between traders from different countries, languages, and legal systems.\n- Incoterms are periodically revised (referenced version discussed was **Incoterms 2020**, the latest at the time)."
+        },
+        {
+          "heading": "What Incoterms Define — and What They Don't",
+          "content": "Incoterms only define:\n- **Delivery obligations** — at what point the seller has \"delivered\" the goods.\n- **Transfer of risk** — the exact point where risk of loss/damage passes from seller to buyer.\n- **Cost allocation** — which party pays for transportation, loading/unloading, insurance, and customs clearance at each stage.\n\nIncoterms do **NOT** define:\n- **Quality or quantity of goods** — that is agreed separately between buyer and seller.\n- **Payment terms** — payment methods like **Letter of Credit (LC)** or **documentary collection** are negotiated separately and are not part of the Incoterm itself.\n- Incoterms are only part of the overall sales contract, not the entire contract."
+        },
+        {
+          "heading": "The Four Incoterm Groups",
+          "content": "1. **Group E (Ex Works / EXW)** — Minimum responsibility for the seller. The seller simply makes goods available at their own factory/premises; the buyer arranges all transportation, export clearance, and takes on virtually all risk and cost from that point.\n2. **Group F (e.g., FCA, FAS, FOB)** — The seller delivers goods to a carrier nominated by the buyer (e.g., loads onto the ship/truck) and clears export customs; risk transfers once goods are handed to the carrier. The buyer arranges and pays for the main international carriage.\n3. **Group C (e.g., CFR, CIF, CPT, CIP)** — The seller arranges and pays for the main carriage (and insurance, in the case of CIF/CIP), but risk still transfers to the buyer at the loading point (e.g., once goods are on board the ship) — so the seller pays freight but the buyer bears the risk during transit.\n4. **Group D (e.g., DAP, DPU, DDP)** — Maximum responsibility for the seller. The seller delivers the goods all the way to the buyer's destination/door, in the case of **DDP (Delivered Duty Paid)**, even covering import duties and customs clearance in the destination country — the buyer simply waits to receive the goods."
+        },
+        {
+          "heading": "FOB and CIF — Key Terms Explained",
+          "content": "- **FOB (Free On Board)**: Always quoted with a **named port of loading** (e.g., \"FOB Chennai,\" \"FOB Mumbai,\" \"FOB Hyderabad\" as illustrative examples) — cost and risk transfer to the buyer once goods are loaded onto the ship at that port.\n- **CIF (Cost, Insurance, Freight)**: the quoted invoice price includes the product cost, insurance, and freight to the destination port — the seller arranges and pays for insurance and shipping, but risk still passes to the buyer once goods are loaded at the origin port.\n- Insurance cost under CIF is typically calculated as a percentage over the invoice value (to also cover potential profit margin loss), not just the bare goods value."
+        },
+        {
+          "heading": "Choosing an Incoterm — Practical Guidance",
+          "content": "- Less experienced exporters often prefer terms with **smaller scope of responsibility** (e.g., FOB or EXW) since they involve less logistics coordination.\n- More experienced exporters can offer **CIF or DDP** to be more competitive/convenient for the buyer — taking on more responsibility (and cost) but often commanding a better price/margin as a result, since buyers value a \"door-to-door\" experience.\n- Before quoting any price, exporters should calculate the full **landed cost** in a spreadsheet: product cost + desired margin + transportation cost + customs clearance charges + import duties — not just the base product price.\n- Always maintain good relationships with **reliable transport/logistics partners** and request proper quotations; don't select a logistics partner on price alone — track record and service reliability matter, since damaged, delayed, or lost shipments become the exporter's problem to resolve with the buyer."
+        },
+        {
+          "heading": "Transportation Modes",
+          "content": "- Shipments are often **multimodal** — e.g., by road from factory to port, then by sea for the international leg, and again by road/rail at the destination.\n- **Sea transport** is the most widely used and economical mode for international trade (majority of world trade volume moves by sea); air transport is used for smaller, urgent, or high-value/perishable goods."
+        },
+        {
+          "heading": "Documentation & Customs",
+          "content": "- Proper documentation is essential — this includes the **commercial invoice, packing list, and Bill of Lading** (the shipping document confirming goods were loaded/shipped).\n- Customs clearance (export side in India, import side in the destination country) requires accurate documentation; incomplete or incorrect paperwork can delay or even damage the consignment (goods held up, demurrage charges, etc.).\n- Packaging must meet **international packaging standards**, varying by product type (e.g., specific materials like thermocol/professional boxes for fragile goods)."
+        },
+        {
+          "heading": "Q&A Highlights",
+          "content": "- **Dry ports for landlocked exporters** (e.g., manufacturers near Delhi/Ludhiana far from a seaport): explained that **dry ports (Inland Container Depots)** allow exporters away from the coast to complete customs and container-loading formalities locally before goods are transported to the actual seaport for onward shipment.\n- **FOB naming convention**: clarified that the port named in \"FOB [City]\" is the **port of loading**, not necessarily the exporter's home city — the exporter should specify accurately which port the goods will be loaded from.\n- **Choosing insurance**: coverage and cost depend on the specific insurance company's policy and the type of goods being shipped (fragile/perishable goods may need specialized coverage).\n- **Import inspection query** (from an importer side): general guidance that goods can be inspected through proper customs and import documentation channels regardless of which part of India they're headed to."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- Incoterms exist solely to define **delivery point, cost split, and risk transfer** — not product quality, quantity, or payment terms.\n- The four groups (**E, F, C, D**) represent an increasing scale of seller responsibility, from Ex Works (minimum) to DDP (maximum).\n- **FOB** and **CIF** are the most commonly referenced terms — always pair them with a specific named port.\n- Calculate your **full landed cost** (product + margin + transport + duties + clearance charges) before quoting any Incoterm-based price.\n- Proper **documentation** (invoice, packing list, Bill of Lading) and a **reliable logistics partner** are essential to avoid disputes and shipment damage."
+        }
+      ]
+    },
+    {
+      "slug": "day4-payments",
+      "day": 4,
+      "session": 2,
+      "order": 8,
+      "title": "Day 4 — Second Session: International Payments & Role of Banks in Export/Import (22.07.21)",
+      "shortTitle": "International Payments & Banking",
+      "topics": [
+        "Letter of Credit",
+        "Payments",
+        "Banking",
+        "FEMA",
+        "Documents"
+      ],
+      "icon": "payment",
+      "sourceFile": "Day4-Second-Session-International-Payments.md",
+      "sourceType": "course_video",
+      "overview": "This session covers how payment actually flows in an international trade transaction, the essential documents involved, the different payment methods exporters can use, and the role banks play as intermediaries who both process payments and reduce risk for both buyer and seller. It closes with a Q&A on bank charges, cancellation charges, and foreign currency handling.",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This session covers how payment actually flows in an international trade transaction, the essential documents involved, the different payment methods exporters can use, and the role banks play as intermediaries who both process payments and reduce risk for both buyer and seller. It closes with a Q&A on bank charges, cancellation charges, and foreign currency handling."
+        },
+        {
+          "heading": "Basic Documents Required for International Payment",
+          "content": "- **Commercial Invoice** — the core document, must clearly state: exporter's name and address, buyer's details, description of goods, quantity, and total invoice amount. This is the document banks use to process and verify payment.\n- **Packing List** — details of how goods are packaged, used alongside the invoice for verification.\n- **Transport document** (e.g., Bill of Lading/Airway Bill) — proof that goods have been shipped, required for both customs and banking processes.\n- Accuracy matters: any **discrepancy between the invoice/documents and the actual shipment** (in quality or quantity) can delay or block payment — banks and insurers check these details closely before releasing funds."
+        },
+        {
+          "heading": "Role of Banks in International Trade",
+          "content": "- Banks act as the **trusted intermediary** between exporter and importer, since the two parties are often unfamiliar with each other and operating under different legal systems.\n- The exporter's bank (**remitting bank**) and the importer's bank communicate directly to transfer funds and share necessary contact/verification details — this correspondent banking relationship is what allows secure movement of money across borders.\n- Large banks (examples referenced: **Citibank, State Bank of India, Bank of India**) commonly handle sizeable international trade transactions (from smaller amounts up to multi-million-dollar deals), and each has established procedures for verifying and processing such payments.\n- Banks help **reduce payment risk** for exporters by acting as a controlled channel — releasing shipping documents to the buyer only according to agreed terms (e.g., only after payment or acceptance)."
+        },
+        {
+          "heading": "Payment Methods in International Trade",
+          "content": "- **Advance Payment** — buyer pays (in full or part) before the goods are shipped; lowest risk for the exporter.\n- **Documents Against Payment (D/P)** — the exporter's bank holds the shipping documents and releases them to the buyer's bank only once payment is made; the buyer cannot clear customs/take possession of goods without paying first.\n- **Documents Against Acceptance (D/A)** — similar process, but documents are released once the buyer formally accepts a bill of exchange (a commitment to pay by a set future date), effectively a form of credit extended to the buyer.\n- **Letter of Credit (LC)** — the buyer's bank issues a formal payment guarantee/commitment on the buyer's behalf; this significantly reduces the exporter's risk since a bank (not just the buyer) is now responsible for honoring payment, provided the exporter meets the agreed documentary conditions.\n- **Cash/Payment on Delivery** — payment made at the point of delivery, discussed as one of the simpler but higher-risk-for-exporter options depending on the relationship with the buyer."
+        },
+        {
+          "heading": "Currency & Regulatory Considerations",
+          "content": "- International trade payments in India are governed by **FEMA (Foreign Exchange Management Act)** — exporters must follow FEMA guidelines when receiving/converting foreign currency.\n- Invoices can be raised in different currencies — the exporter's currency, the importer's currency, or a widely used international currency (e.g., USD, Euro) — and the **exchange rate at the time of conversion** affects the actual amount received, so this should be tracked carefully.\n- Banks can facilitate **foreign currency exchange** and provide guidance on the most favorable/stable currency to invoice in, depending on the deal."
+        },
+        {
+          "heading": "Bank Charges & Cancellation Charges",
+          "content": "- **Bank charges** apply for processing international payments (transfer/commission charges) — the contract should **clearly specify which party (buyer or seller) bears these charges** to avoid disputes later.\n- **Cancellation charges** may apply if an export/import deal (especially one backed by an LC or bank commitment) is cancelled after being set up — banks communicate these charges upfront, and exporters/importers should factor this into their planning before committing to a deal.\n- For large transactions, banks may require additional safeguards such as a **personal guarantee** from the account holder."
+        },
+        {
+          "heading": "Practical Guidance",
+          "content": "- Always **clearly state payment terms in the contract** — due date, currency, responsibility for bank charges, and cancellation terms — to prevent disputes.\n- Keep all trade documents **accurate and consistent** (invoice, packing list, shipping documents) since banks and insurance companies scrutinize these for discrepancies before releasing payment.\n- Build a working relationship with a bank experienced in **export/import transactions** — not all bank branches handle international trade with the same level of expertise, so choosing the right banking partner matters."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- Payment in international trade flows through **banks as trusted intermediaries**, using documents (invoice, packing list, transport documents) as the basis for verification and fund release.\n- Common payment methods range from **lowest risk for the exporter (advance payment)** to **higher risk (open account/payment on delivery)**, with **D/P, D/A, and LC** offering structured middle-ground options.\n- **Letters of Credit** are the most secure structured option since a bank guarantees payment on the buyer's behalf.\n- Always clarify **who pays bank/cancellation charges** and **which currency** governs the deal, in writing, before finalizing a contract.\n- Foreign exchange transactions must comply with **FEMA regulations** in India."
+        }
+      ]
+    },
+    {
+      "slug": "day6-customs-agent",
+      "day": 6,
+      "session": 1,
+      "order": 9,
+      "title": "Day 6 — First Session: Role of Customs Agent in Export & Imports",
+      "shortTitle": "Role of the Customs Agent (CHA)",
+      "topics": [
+        "Customs",
+        "CHA",
+        "Containers",
+        "Shipping Lines",
+        "Dry Ports"
+      ],
+      "icon": "shield",
+      "sourceFile": "Day6-Customs-Agent.md",
+      "sourceType": "course_video",
+      "overview": "This session explains what a **Customs House Agent (CHA) / customs broker** does and why exporters/importers rely on one, walking through a worked example (an exporter and an importer moving goods between countries) to illustrate container selection, port/route selection, and the customs clearance process end-to-end.",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This session explains what a **Customs House Agent (CHA) / customs broker** does and why exporters/importers rely on one, walking through a worked example (an exporter and an importer moving goods between countries) to illustrate container selection, port/route selection, and the customs clearance process end-to-end."
+        },
+        {
+          "heading": "Why a Product Needs Government/Customs Approval",
+          "content": "- Before any product can move from one country to another, it needs approval from the relevant government department and **customs clearance** — customs acts as the checkpoint through which all cross-border cargo must pass.\n- Not every product is automatically approved for movement — certain categories (chemicals, hazardous materials, etc.) go through additional scrutiny before customs clears them."
+        },
+        {
+          "heading": "Role of the Customs House Agent (CHA)",
+          "content": "- The CHA acts as the **bridge between the exporter/importer and the customs department** — handling documentation, submissions, and communication with customs officials so the exporter doesn't have to navigate the process directly.\n- Key CHA responsibilities: preparing and submitting all documents required for clearance, responding to customs queries, coordinating with the shipping line/transporter, and handing over the cargo at the correct point in the process.\n- Since not every exporter is experienced with customs procedures, CHAs bring specialized knowledge that helps avoid delays, penalties, or shipment holds.\n- Exporters should evaluate and **request quotations from multiple CHAs/service providers**, comparing pricing, reputation, and service quality before choosing one, rather than picking blindly."
+        },
+        {
+          "heading": "Container Types and Selection",
+          "content": "- **Full Container Load (FCL)**: an exporter uses/pays for the entire container.\n- **Less than Container Load (LCL) / Consolidated cargo**: for smaller shipments, a **consolidator** combines cargo from multiple exporters into a single container, sharing space and cost — the CHA/agent typically identifies the right consolidator for a small-quantity exporter.\n- **Open-top containers**: used for oversized cargo (e.g., large machinery) that cannot be dismantled to fit a standard container.\n- **Reefer (refrigerated) containers**: temperature-controlled containers used for perishable goods requiring consistent temperature throughout transit.\n- **Flat-rack containers**: for cargo whose length/size exceeds standard container dimensions.\n- Standard container sizing (commonly referenced length, e.g., 20-foot containers) determines what fits — the exporter should state the product's dimensions and let the shipping line/CHA advise the right container type; there's no need to worry about this decision alone."
+        },
+        {
+          "heading": "Choosing a Shipping Line and Route",
+          "content": "- Exporters should **request quotations from multiple shipping lines** rather than committing to just one, comparing freight rates and transit times for the same route.\n- Route selection isn't always about the shortest/most direct path — the CHA/shipping line advises the most practical and cost-effective route considering transit time and reliability.\n- Major Indian ports referenced: **Mumbai (JNPT – Jawaharlal Nehru Port Trust), Chennai, Kolkata, Kandla, Hazira (Gujarat), Krishnapatnam**, among others.\n- **Inland Container Depots (ICDs) / dry ports** (e.g., near Delhi, Ludhiana) allow exporters located far from the coast to complete customs formalities and container stuffing locally before the container is transported to the actual seaport."
+        },
+        {
+          "heading": "The Container Booking & Stuffing Process",
+          "content": "1. Exporter (via CHA) requests quotations from shipping lines/booking agents and confirms container booking.\n2. The empty container is delivered either to the **exporter's factory (factory stuffing, if the factory has stuffing permission)** or to a **Container Freight Station/ICD** for loading.\n3. Goods are packed/loaded (\"stuffed\") into the container, and the container is sealed.\n4. The container moves by road/rail to the port, or directly begins its onward customs and shipping process if stuffed at an ICD already inside customs jurisdiction."
+        },
+        {
+          "heading": "Customs Documentation & Clearance Process",
+          "content": "- **Shipping Bill** — the key export customs document.\n- **Bill of Entry** — the key import customs document (used by the importer/receiving side).\n- Documents are submitted through an online customs web portal; a **self-assessment** system is typically used, where the exporter/CHA declares the details and customs may raise queries if anything is unclear.\n- If customs has no queries, clearance proceeds smoothly; if there are queries, the CHA is responsible for resolving them promptly (e.g., providing additional documents or clarification) to avoid delays.\n- Once cleared, a **\"Let Export Order\"** (or equivalent clearance confirmation) is issued, and the container/cargo is handed over to the shipping line for onward transit.\n- In some cases, customs officials may request a **physical examination** of the cargo — the CHA coordinates this so the shipment isn't unnecessarily delayed."
+        },
+        {
+          "heading": "Air Cargo vs. Sea Cargo",
+          "content": "- **Sea cargo** is generally more economical for bulk shipments but slower.\n- **Air cargo** is faster and better suited for **perishable, urgent, or high-value goods**, though at a higher cost — courier/air modes typically also have **minimum quantity considerations** for cost efficiency.\n- Not every city is directly connected to major sea ports or international airports, so exporters in landlocked or smaller cities need to plan transport to the nearest port/airport accordingly (this is another area where the CHA assists)."
+        },
+        {
+          "heading": "Packing & Physical Inspection",
+          "content": "- Proper **export packaging standards** must be followed; customs may occasionally require opening a package for physical verification.\n- Being prepared with correct documentation and compliant packing reduces the likelihood of delays during inspection."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- A **Customs House Agent (CHA)** is not optional in practice — they handle the specialized documentation and customs interface that most exporters/importers aren't equipped to manage alone.\n- Container type (**FCL, LCL/consolidated, reefer, open-top, flat-rack**) should be chosen based on product size, quantity, and temperature needs — the CHA/shipping line will guide this decision.\n- Always **compare quotations from multiple CHAs and shipping lines** rather than defaulting to one.\n- **Shipping Bill** (export) and **Bill of Entry** (import) are the two core customs documents in the clearance process.\n- **Dry ports/ICDs** make customs clearance accessible even for exporters far from the coast.\n- Choose **sea vs. air transport** based on the trade-off between cost and speed/perishability of the product."
+        }
+      ]
+    },
+    {
+      "slug": "day6-connecting-dots",
+      "day": 6,
+      "session": 2,
+      "order": 10,
+      "title": "Day 6 — Last Session: Connecting Dots (Course Wrap-Up)",
+      "shortTitle": "Connecting the Dots (Wrap-Up)",
+      "topics": [
+        "Action Plan",
+        "Q&A",
+        "Entrepreneurship",
+        "Networking"
+      ],
+      "icon": "sparkles",
+      "sourceFile": "Day6-Connecting-Dots.md",
+      "sourceType": "course_video",
+      "overview": "This is the closing session of the course batch, held on Guru Purnima. Rather than introducing new technical content, it focuses on **\"connecting the dots\"** — helping participants translate everything learned across the course into an actionable next step — combined with an open Q&A and participant testimonials about their export plans and career journeys.",
+      "sections": [
+        {
+          "heading": "Overview",
+          "content": "This is the closing session of the course batch, held on Guru Purnima. Rather than introducing new technical content, it focuses on **\"connecting the dots\"** — helping participants translate everything learned across the course into an actionable next step — combined with an open Q&A and participant testimonials about their export plans and career journeys."
+        },
+        {
+          "heading": "Purpose of the Session",
+          "content": "- The instructor frames the session as helping participants move from **scattered knowledge to a clear, connected action plan** for starting or growing an export business.\n- Encouragement that success in export doesn't require a corporate or business-family background — participants from diverse fields (engineering, pharma, software, homemakers, fresh graduates) have all been able to enter the field with the right knowledge and consistent effort."
+        },
+        {
+          "heading": "Key Advice Reinforced in the Wrap-Up",
+          "content": "- **Start with clarity, not perfection** — don't wait until \"everything is ready\"; begin taking action with the product/market knowledge already covered in the course (registration, HS codes, RCMC, Incoterms, payments, customs).\n- **Networking matters** — staying connected with course peers, mentors, and industry contacts (via platforms like LinkedIn and alumni/WhatsApp groups) helps with ongoing learning and finding leads after the course ends.\n- **Government entrepreneurship support** was referenced, including a **Nodal Training Institute / entrepreneurship training scheme** offering loans with a subsidized interest rate (a subsidy percentage was mentioned) for eligible students/entrepreneurs — worth checking eligibility for those starting out with limited capital.\n- Practical, applied learning (actually doing the registration steps, checking HS codes, requesting quotations) matters more than theoretical study alone."
+        },
+        {
+          "heading": "Participant Testimonials & Planned Export Businesses",
+          "content": "A wide range of participants shared their backgrounds and post-course export plans, illustrating the diversity of entry points into EXIM:\n- A **mechanical engineer** (previously with a private company) planning to start a **family business** and explore exporting.\n- A **pharma company employee** exploring how to begin exporting products related to their industry experience.\n- Participants planning to export **Ashwagandha and other herbal/Ayurvedic products**, **cosmetics and liquid soap**, **olive oil** (one participant referenced running \"Lotus Ayurveda India\"), and **garments**.\n- A participant who, after gaining **1 year of experience with a Customs Clearing Agent (CHA)**, went on to complete an **MBA in Supply Chain & Logistics Management** and is now working in **customs clearance at Delhi Cargo Airport** — an example of building a specialized logistics/customs career off the back of the course.\n- A **woman entrepreneur** balancing family responsibilities while building an export business, cited as an example of the flexibility the field offers.\n- Software professionals and fresh graduates also shared plans to explore export as a side business or full career pivot."
+        },
+        {
+          "heading": "Q&A Highlights",
+          "content": "- A participant asked about **import duty differences in the \"grey market\"** — different buyers/regions may quote or expect different pricing due to informal/grey-market channels, and the instructor cautioned that formal exporters should base pricing on official duty structures rather than trying to match informal grey-market rates, since that carries compliance risk.\n- Another participant asked about starting export **while still employed full-time** (e.g., in a pharma company or engineering job) — advice was that export can be started as a **side business** initially, using evenings/weekends for registration and buyer outreach, and scaled up once traction is established.\n- A returning participant who had studied abroad and came back shared that they were exploring export as a way to build something independent rather than immediately taking a conventional job — the instructor encouraged this path as long as the fundamentals from the course (registration, product research, compliance) were followed properly."
+        },
+        {
+          "heading": "Course Review & Feedback",
+          "content": "- Multiple participants explicitly thanked the instructors for providing a **\"one-stop solution\"** — going from having no clarity on exporting to understanding the complete process from company formation through to customs and payments.\n- Several noted that prior to the course they had **scattered, incomplete information** gathered informally, and that the structured, session-by-session format (company formation → market research → government schemes → buyer sourcing → eCommerce → Incoterms → payments → customs) gave them a usable end-to-end roadmap.\n- Feedback consistently highlighted that the value was in **practical, applied knowledge** (how to actually register, which portal to use, how to read an HS code) rather than abstract theory."
+        },
+        {
+          "heading": "Instructor's Closing Themes",
+          "content": "- Emphasized that this batch, like others before it, saw participants from **highly varied professional backgrounds** (engineers, pharma workers, homemakers, students) — reinforcing that EXIM is accessible to anyone willing to learn the process.\n- Encouraged participants to treat the course as a **foundation**, not a finish line — real learning continues through hands-on application, staying updated with government policy changes, and continuing to network within the trade community.\n- General thanks and closing remarks were exchanged between the instructor and participants, with many expressing gratitude for a **clear, complete, end-to-end understanding** of the export-import process gained through the course."
+        },
+        {
+          "heading": "Key Takeaways",
+          "content": "- The course's final message: **you don't need a business background to start exporting** — the tools, registrations, and knowledge covered in the course (Sessions 1–9) are sufficient to begin.\n- Practical next steps for graduates include: choosing a product, completing registrations (IEC, RCMC), researching HS codes and target markets, and actively building industry connections.\n- Government-backed **entrepreneurship training/loan schemes** may offer subsidized support for first-time exporters with limited capital — worth investigating locally.\n- Staying connected with the course network (peers, instructors, alumni groups) supports continued learning after the program ends."
+        }
+      ]
+    }
+  ]
+}

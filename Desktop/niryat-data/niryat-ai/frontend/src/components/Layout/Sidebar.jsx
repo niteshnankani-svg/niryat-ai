@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { to: '/payment', icon: 'payment', label: 'Payment & LC' },
   { to: '/costing', icon: 'costing', label: 'Costing' },
   { to: '/schemes', icon: 'schemes', label: 'Govt Schemes' },
+  { to: '/insights', icon: 'sparkles', label: 'Expert Insights', badgeKey: 'insights' },
   { to: '/credits', icon: 'credits', label: 'Credits' },
 ]
 
@@ -32,6 +33,7 @@ export default function Sidebar({ open, onClose }) {
   const badgeValue = (key) => {
     if (key === 'products') return products.length || null
     if (key === 'countries') return BUYER_COUNTRIES
+    if (key === 'insights') return 10
     return null
   }
 

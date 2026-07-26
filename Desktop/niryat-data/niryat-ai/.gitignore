@@ -2,3 +2,11 @@ backend/chroma_db/
 backend/.env
 __pycache__/
 *.pyc
+
+# Runtime user data — never commit (PII / account state, regenerated at runtime)
+backend/registered_emails.json
+backend/credits.json
+backend/products.db
+
+.DS_Store
+**/.DS_Store

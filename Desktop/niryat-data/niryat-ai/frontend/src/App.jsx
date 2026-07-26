@@ -10,6 +10,7 @@ import Payment from './pages/Payment'
 import Costing from './pages/Costing'
 import GovtSchemes from './pages/GovtSchemes'
 import Credits from './pages/Credits'
+import ExpertInsights from './pages/ExpertInsights'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/costing" element={<Costing />} />
         <Route path="/schemes" element={<GovtSchemes />} />
+        <Route path="/insights" element={<ExpertInsights />} />
         <Route path="/credits" element={<Credits />} />
       </Route>
     </Routes>

@@ -12,7 +12,7 @@ import anthropic
 _env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
 load_dotenv(_env_path, override=True)
 
-from rag import query_chromadb
+from rag import query_labeled_context, collection_counts
 from scraper import fetch_trade_data
 from buyer_leads import get_buyer_leads, PREMIUM_EMAILS
 from insurance_guide import stream_insurance
@@ -46,6 +46,24 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+def _self_heal_video_collection():
+    """
+    Self-heal the video-summaries collection if it's ever empty (e.g. a fresh
+    or reset volume). Only niryat_videos can safely rebuild in-container —
+    its source (data/video_summaries/*.md) ships with the backend. The study
+    material collection (niryat_exim) cannot: its source documents live
+    outside this service's deploy root, so it depends on the persistent
+    volume being correctly provisioned/restored.
+    """
+    try:
+        import ingest_videos
+        count = ingest_videos.ingest(force=False)
+        print(f"[startup] niryat_videos ready: {count} docs")
+    except Exception as e:
+        print(f"[startup] video self-heal skipped: {e}")
 
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
@@ -159,15 +177,19 @@ async def chat(req: ChatRequest):
                 },
             )
 
-        rag_results = query_chromadb(req.message, n_results=3)
-        rag_context = ""
-        if rag_results and rag_results.get("documents"):
-            chunks = rag_results["documents"][0]
-            rag_context = "\n---\n".join(chunks)
+        rag_context = query_labeled_context(req.message, n_study=3, n_video=3)
 
         system = SYSTEM_PROMPT
         if rag_context:
-            system += f"\n\nRelevant context:\n{rag_context}"
+            system += (
+                "\n\nRelevant context from two knowledge sources — "
+                "[COURSE VIDEO — ...] blocks come from our exclusive live-training "
+                "session recordings (practical instructor guidance and real Q&A), "
+                "[STUDY MATERIAL — ...] blocks come from official documents and "
+                "formats. When helpful, attribute advice to the live sessions "
+                "(e.g. 'In our live training sessions, the instructor recommends...'):\n"
+                f"{rag_context}"
+            )
 
         messages = list(history_dicts)
         messages.append({"role": "user", "content": req.message})
@@ -336,6 +358,50 @@ async def promo_apply(req: PromoApplyRequest):
     return result
 
 
+_VIDEO_DB_FILE = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "data", "video_summaries", "video_summaries.json",
+)
+
+
+def _load_video_db() -> dict:
+    try:
+        with open(_VIDEO_DB_FILE, encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="video summaries database not found")
+
+
+@app.get("/videos")
+async def videos():
+    """List all live-course session summaries (metadata + overview, no full sections)."""
+    db = _load_video_db()
+    return {
+        "count": db["count"],
+        "sessions": [
+            {k: s[k] for k in (
+                "slug", "day", "session", "order", "title",
+                "shortTitle", "topics", "icon", "overview",
+            )}
+            for s in db["sessions"]
+        ],
+    }
+
+
+@app.get("/videos/{slug}")
+async def video_detail(slug: str):
+    """Full summary (all sections) of one live-course session."""
+    db = _load_video_db()
+    for s in db["sessions"]:
+        if s["slug"] == slug:
+            return s
+    raise HTTPException(status_code=404, detail=f"No session with slug '{slug}'")
+
+
 @app.get("/health")
 async def health():
-    return {"status": "ok", "service": "NiryatAI"}
+    return {
+        "status": "ok",
+        "service": "NiryatAI",
+        "chroma_collections": collection_counts(),
+    }

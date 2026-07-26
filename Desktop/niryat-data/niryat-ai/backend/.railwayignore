@@ -1,0 +1,7 @@
+raw/
+chroma_db/
+.env
+__pycache__/
+*.pyc
+credits.json
+.DS_Store
