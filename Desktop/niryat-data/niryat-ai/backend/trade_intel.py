@@ -17,6 +17,7 @@ _CSV_FILES = [
     os.path.join(_DIR, "data", "export_table_grains_2023.csv"),
     os.path.join(_DIR, "data", "export_table_oilseeds_2023.csv"),
     os.path.join(_DIR, "data", "export_table_growth_2023.csv"),
+    os.path.join(_DIR, "data", "export_table_easyentry2_2023.csv"),
 ]
 
 _PRODUCTS_JSON = os.path.join(_DIR, "products.json")
