@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
 import ChatMessage from './ChatMessage'
+import HsnRequestModal from './HsnRequestModal'
 import Icon from '../../lib/icons'
 import { useChat } from '../../hooks/useChat'
 
@@ -15,9 +16,11 @@ const SUGGESTED = [
 export default function ChatPanel({ onClose }) {
   const navigate = useNavigate()
   const [input, setInput] = useState('')
+  const [hsnRequestProduct, setHsnRequestProduct] = useState(null)
   const endRef = useRef(null)
   const { messages, streaming, streamingText, sendMessage } = useChat({
     onBuyerRequest: (country) => navigate(`/buyers?country=${encodeURIComponent(country)}`),
+    onHsnRequest: (product) => setHsnRequestProduct(product),
   })
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages, streamingText])
@@ -90,6 +93,8 @@ export default function ChatPanel({ onClose }) {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
         </button>
       </div>
+
+      <HsnRequestModal product={hsnRequestProduct} onClose={() => setHsnRequestProduct(null)} />
     </motion.div>
   )
 }

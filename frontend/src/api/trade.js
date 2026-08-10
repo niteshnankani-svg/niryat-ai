@@ -6,3 +6,6 @@ export const getIntel = (hsCode) => apiGet(`/intel/${hsCode}`)
 
 export const fetchTradeData = ({ hs_code, year = '2023-2024', trade_type = 'export' }) =>
   apiPost('/tradedata', { hs_code, year, trade_type })
+
+export const requestHsnCode = ({ product, email, note = '' }) =>
+  apiPost('/hsn/request', { product, email, note })

@@ -224,7 +224,13 @@ async def chat(req: ChatRequest):
                     "no direct match on file, suggest the general category/chapter if "
                     "you're confident about it, and point them to the DGFT ITC-HS "
                     "code list (dgft.gov.in) or a customs broker to confirm the exact "
-                    "classification."
+                    "classification. Also offer to have the team research this "
+                    "specific product and follow up with the exact code. If the "
+                    "user's message clearly names a product, end your reply on its "
+                    "own line with [HSN_REQUEST:<short product description>] — e.g. "
+                    "[HSN_REQUEST:mouth freshener tablets] — filled in with their "
+                    "product, so the app can offer to log the request. Omit the tag "
+                    "if no specific product was actually named."
                 )
 
         messages = list(history_dicts)
@@ -316,6 +322,49 @@ class RegisterRequest(BaseModel):
 async def register(req: RegisterRequest):
     save_registered_email(req.email, req.product, req.name)
     return {"status": "ok", "message": "Registered successfully"}
+
+
+HSN_REQUESTS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hsn_requests.json")
+
+
+def load_hsn_requests() -> list[dict]:
+    try:
+        with open(HSN_REQUESTS_FILE, "r") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+
+def save_hsn_request(product: str, email: str, note: str = ""):
+    # A list, not a dict-by-email like registered_emails.json — the same
+    # person may reasonably ask about several different products over time,
+    # and we don't want a second request to silently overwrite the first.
+    requests_ = load_hsn_requests()
+    requests_.append({
+        "product": product,
+        "email": email,
+        "note": note,
+        "requested_at": __import__("datetime").datetime.now().isoformat(),
+    })
+    with open(HSN_REQUESTS_FILE, "w") as f:
+        json.dump(requests_, f, indent=2)
+
+
+class HSNRequestModel(BaseModel):
+    product: str = Field(min_length=1, max_length=200)
+    email: str = Field(max_length=254)
+    note: str = Field(default="", max_length=500)
+
+    @field_validator("email")
+    @classmethod
+    def _check_email(cls, v):
+        return _validate_email(v)
+
+
+@app.post("/hsn/request")
+async def hsn_request(req: HSNRequestModel):
+    save_hsn_request(req.product, req.email, req.note)
+    return {"status": "ok", "message": "Request logged — we'll research the HSN code and follow up by email."}
 
 
 @app.post("/buyerleads")
