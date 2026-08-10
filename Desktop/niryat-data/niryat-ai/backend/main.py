@@ -16,12 +16,19 @@ from rag import query_labeled_context, collection_counts
 from scraper import fetch_trade_data
 from buyer_leads import get_buyer_leads, PREMIUM_EMAILS
 from insurance_guide import stream_insurance
-from trade_intel import get_intel, build_system_prompt_snippet, get_comtrade_products
+from trade_intel import (
+    get_intel, build_system_prompt_snippet, get_comtrade_products,
+    search_hs_codes, format_hs_matches,
+)
 import credits as credits_store
 
 # Simple keyword gate — can be replaced by an intent classifier later.
 _INSURANCE_KEYWORDS = {"insurance", "ecgc", "marine cargo", "premium", "claim",
                        "policy", "cover", "underwriter", "insured", "insurer"}
+
+_HSN_KEYWORDS = {"hsn", "hs code", "harmonized", "harmonised", "tariff code",
+                 "customs code", "classify", "classification", "which code",
+                 "what code", "which hs", "what hs"}
 
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
@@ -77,6 +84,7 @@ Rules:
 - Be encouraging and practical
 - For buyer requests respond with [BUYER_REQUEST:COUNTRY_NAME]
 - When quoting market sizes, cite the world imports / India exports figures from the table below
+- When asked to identify or classify an HS/HSN code for a product, use the HS code database matches provided in context for that turn — never invent a code from general knowledge
 
 You know: IEC registration (₹500, PAN+Aadhaar+cheque), AD Code, Incoterms 2020, FOB/CFR/CIF costing, payment terms (Advance/LC/DP/DA), export documents, LOI/SCO/FCO/NCNDA, govt schemes (Drawback/RoDTEP/MEIS/SEIS), APEDA labs, organic certification, 3-month export business plan.
 
@@ -156,6 +164,11 @@ def _is_insurance_question(text: str) -> bool:
     return any(kw in lower for kw in _INSURANCE_KEYWORDS)
 
 
+def _is_hsn_question(text: str) -> bool:
+    lower = text.lower()
+    return any(kw in lower for kw in _HSN_KEYWORDS)
+
+
 @app.post("/chat")
 async def chat(req: ChatRequest):
     try:
@@ -190,6 +203,29 @@ async def chat(req: ChatRequest):
                 "(e.g. 'In our live training sessions, the instructor recommends...'):\n"
                 f"{rag_context}"
             )
+
+        if _is_hsn_question(req.message):
+            hs_matches = search_hs_codes(req.message)
+            if hs_matches:
+                system += (
+                    "\n\nHS code database matches for this product description "
+                    "(4-digit HS headings from the DGFT/Comtrade product database — "
+                    "these are heading-level matches, not a full 8-digit tariff "
+                    "classification). Lead with the closest match, mention runner-up "
+                    "matches only if genuinely relevant, and tell the user to confirm "
+                    "the exact 8-digit code on icegate.gov.in or with a customs broker "
+                    "before filing:\n"
+                    f"{format_hs_matches(hs_matches)}"
+                )
+            else:
+                system += (
+                    "\n\nNo match for this product was found in the HS code database. "
+                    "Do NOT invent or guess a specific HS code. Tell the user there's "
+                    "no direct match on file, suggest the general category/chapter if "
+                    "you're confident about it, and point them to the DGFT ITC-HS "
+                    "code list (dgft.gov.in) or a customs broker to confirm the exact "
+                    "classification."
+                )
 
         messages = list(history_dicts)
         messages.append({"role": "user", "content": req.message})
