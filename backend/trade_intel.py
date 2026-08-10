@@ -5,6 +5,7 @@ Loaded once at startup; no DB round-trips at query time.
 """
 
 import os
+import re
 import csv
 import json
 
@@ -87,6 +88,66 @@ _load()
 def get_intel(hs_code: str) -> dict | None:
     """Return merged intel for a 4-digit HS code, or None if unknown."""
     return _intel.get(str(hs_code).zfill(4))
+
+
+_HS_SEARCH_STOPWORDS = {
+    "the", "a", "an", "for", "of", "and", "or", "to", "is", "in", "my",
+    "what", "which", "code", "hsn", "hs", "export", "exporting", "import",
+    "importing", "product", "products", "give", "need", "find", "tell",
+    "me", "please", "item", "items", "want", "under", "should", "use",
+    "used", "identify", "recommend", "correct", "right", "proper",
+    # Common filler words in tariff-schedule descriptions themselves —
+    # excluding these avoids matching on formulaic legal boilerplate
+    # instead of the actual product name.
+    "made", "other", "including", "with", "without", "parts", "articles",
+    "goods", "than", "not", "excluding", "except", "similar", "kind",
+}
+
+
+def search_hs_codes(query: str, limit: int = 6) -> list[dict]:
+    """
+    Keyword search over the merged commodity database — finds the closest-
+    matching HS headings for a free-text product description (e.g. "cotton
+    yarn" or "mouth freshener").
+
+    This is a heading-level (4-digit) match against ~1225 known commodities,
+    not a full 8-digit tariff classification — good for pointing someone at
+    the right chapter/heading, not a substitute for official classification.
+
+    Matches on whole words only (word-boundary regex, not raw substring) so
+    a query word like "mouth" doesn't false-positive match inside an
+    unrelated word like "VERMOUTH". Score weights by matched-word length so
+    a specific word (e.g. "basmati") outranks a generic filler word that
+    slipped past the stopword list.
+    """
+    words = [w for w in re.findall(r"[a-z]+", query.lower())
+             if w not in _HS_SEARCH_STOPWORDS and len(w) > 2]
+    if not words:
+        return []
+    patterns = [(w, re.compile(rf"\b{re.escape(w)}\b")) for w in words]
+
+    scored = []
+    for entry in _intel.values():
+        commodity = (entry.get("commodity") or "").lower()
+        if not commodity:
+            continue
+        score = sum(len(w) for w, pat in patterns if pat.search(commodity))
+        if score:
+            scored.append((score, entry))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [e for _, e in scored[:limit]]
+
+
+def format_hs_matches(matches: list[dict]) -> str:
+    """Compact table of HS code search results to inject into the chat context."""
+    if not matches:
+        return ""
+    lines = ["HS heading | Commodity (DGFT/Comtrade description)",
+             "-----------|----------------------------------------"]
+    for m in matches:
+        lines.append(f"{m['hs_code']}       | {m['commodity'][:60]}")
+    return "\n".join(lines)
 
 
 def get_all() -> list[dict]:
