@@ -16,12 +16,19 @@ from rag import query_labeled_context, collection_counts
 from scraper import fetch_trade_data
 from buyer_leads import get_buyer_leads, PREMIUM_EMAILS
 from insurance_guide import stream_insurance
-from trade_intel import get_intel, build_system_prompt_snippet, get_comtrade_products
+from trade_intel import (
+    get_intel, build_system_prompt_snippet, get_comtrade_products,
+    search_hs_codes, format_hs_matches,
+)
 import credits as credits_store
 
 # Simple keyword gate — can be replaced by an intent classifier later.
 _INSURANCE_KEYWORDS = {"insurance", "ecgc", "marine cargo", "premium", "claim",
                        "policy", "cover", "underwriter", "insured", "insurer"}
+
+_HSN_KEYWORDS = {"hsn", "hs code", "harmonized", "harmonised", "tariff code",
+                 "customs code", "classify", "classification", "which code",
+                 "what code", "which hs", "what hs"}
 
 _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
@@ -77,6 +84,7 @@ Rules:
 - Be encouraging and practical
 - For buyer requests respond with [BUYER_REQUEST:COUNTRY_NAME]
 - When quoting market sizes, cite the world imports / India exports figures from the table below
+- When asked to identify or classify an HS/HSN code for a product, use the HS code database matches provided in context for that turn — never invent a code from general knowledge
 
 You know: IEC registration (₹500, PAN+Aadhaar+cheque), AD Code, Incoterms 2020, FOB/CFR/CIF costing, payment terms (Advance/LC/DP/DA), export documents, LOI/SCO/FCO/NCNDA, govt schemes (Drawback/RoDTEP/MEIS/SEIS), APEDA labs, organic certification, 3-month export business plan.
 
@@ -156,6 +164,11 @@ def _is_insurance_question(text: str) -> bool:
     return any(kw in lower for kw in _INSURANCE_KEYWORDS)
 
 
+def _is_hsn_question(text: str) -> bool:
+    lower = text.lower()
+    return any(kw in lower for kw in _HSN_KEYWORDS)
+
+
 @app.post("/chat")
 async def chat(req: ChatRequest):
     try:
@@ -190,6 +203,35 @@ async def chat(req: ChatRequest):
                 "(e.g. 'In our live training sessions, the instructor recommends...'):\n"
                 f"{rag_context}"
             )
+
+        if _is_hsn_question(req.message):
+            hs_matches = search_hs_codes(req.message)
+            if hs_matches:
+                system += (
+                    "\n\nHS code database matches for this product description "
+                    "(4-digit HS headings from the DGFT/Comtrade product database — "
+                    "these are heading-level matches, not a full 8-digit tariff "
+                    "classification). Lead with the closest match, mention runner-up "
+                    "matches only if genuinely relevant, and tell the user to confirm "
+                    "the exact 8-digit code on icegate.gov.in or with a customs broker "
+                    "before filing:\n"
+                    f"{format_hs_matches(hs_matches)}"
+                )
+            else:
+                system += (
+                    "\n\nNo match for this product was found in the HS code database. "
+                    "Do NOT invent or guess a specific HS code. Tell the user there's "
+                    "no direct match on file, suggest the general category/chapter if "
+                    "you're confident about it, and point them to the DGFT ITC-HS "
+                    "code list (dgft.gov.in) or a customs broker to confirm the exact "
+                    "classification. Also offer to have the team research this "
+                    "specific product and follow up with the exact code. If the "
+                    "user's message clearly names a product, end your reply on its "
+                    "own line with [HSN_REQUEST:<short product description>] — e.g. "
+                    "[HSN_REQUEST:mouth freshener tablets] — filled in with their "
+                    "product, so the app can offer to log the request. Omit the tag "
+                    "if no specific product was actually named."
+                )
 
         messages = list(history_dicts)
         messages.append({"role": "user", "content": req.message})
@@ -280,6 +322,49 @@ class RegisterRequest(BaseModel):
 async def register(req: RegisterRequest):
     save_registered_email(req.email, req.product, req.name)
     return {"status": "ok", "message": "Registered successfully"}
+
+
+HSN_REQUESTS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hsn_requests.json")
+
+
+def load_hsn_requests() -> list[dict]:
+    try:
+        with open(HSN_REQUESTS_FILE, "r") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+
+def save_hsn_request(product: str, email: str, note: str = ""):
+    # A list, not a dict-by-email like registered_emails.json — the same
+    # person may reasonably ask about several different products over time,
+    # and we don't want a second request to silently overwrite the first.
+    requests_ = load_hsn_requests()
+    requests_.append({
+        "product": product,
+        "email": email,
+        "note": note,
+        "requested_at": __import__("datetime").datetime.now().isoformat(),
+    })
+    with open(HSN_REQUESTS_FILE, "w") as f:
+        json.dump(requests_, f, indent=2)
+
+
+class HSNRequestModel(BaseModel):
+    product: str = Field(min_length=1, max_length=200)
+    email: str = Field(max_length=254)
+    note: str = Field(default="", max_length=500)
+
+    @field_validator("email")
+    @classmethod
+    def _check_email(cls, v):
+        return _validate_email(v)
+
+
+@app.post("/hsn/request")
+async def hsn_request(req: HSNRequestModel):
+    save_hsn_request(req.product, req.email, req.note)
+    return {"status": "ok", "message": "Request logged — we'll research the HSN code and follow up by email."}
 
 
 @app.post("/buyerleads")

@@ -3,8 +3,9 @@ import { streamChat } from '../api/chat'
 import { useCredits } from '../context/CreditsContext'
 
 const BUYER_PATTERN = /\[BUYER_REQUEST:([A-Z_ ]+)\]/
+const HSN_PATTERN = /\[HSN_REQUEST:([^\]]+)\]/
 
-export function useChat({ onBuyerRequest } = {}) {
+export function useChat({ onBuyerRequest, onHsnRequest } = {}) {
   const [messages, setMessages] = useState([])
   const [streaming, setStreaming] = useState(false)
   const [streamingText, setStreamingText] = useState('')
@@ -27,19 +28,26 @@ export function useChat({ onBuyerRequest } = {}) {
 
     try {
       const fullText = await streamChat({ message: userText, history }, setStreamingText, () => {})
-      setMessages((prev) => [...prev, { role: 'assistant', content: fullText }])
+
+      const buyerMatch = fullText.match(BUYER_PATTERN)
+      const hsnMatch = fullText.match(HSN_PATTERN)
+      // Strip both tags so they never show up as literal brackets in the
+      // chat bubble — they're routing signals for the app, not for the user.
+      const displayText = fullText.replace(BUYER_PATTERN, '').replace(HSN_PATTERN, '').trim()
+
+      setMessages((prev) => [...prev, { role: 'assistant', content: displayText }])
       setStreamingText('')
       deduct(1, 'AI chat query')
 
-      const match = fullText.match(BUYER_PATTERN)
-      if (match) onBuyerRequest?.(match[1].trim())
+      if (buyerMatch) onBuyerRequest?.(buyerMatch[1].trim())
+      if (hsnMatch) onHsnRequest?.(hsnMatch[1].trim())
     } catch {
       setMessages((prev) => [...prev, { role: 'assistant', content: 'Connection failed. Try again shortly.' }])
       setStreamingText('')
     } finally {
       setStreaming(false)
     }
-  }, [messages, streaming, balance, deduct, onBuyerRequest])
+  }, [messages, streaming, balance, deduct, onBuyerRequest, onHsnRequest])
 
   return { messages, streaming, streamingText, sendMessage }
 }
